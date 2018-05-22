@@ -2,23 +2,20 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
-
-
-var apiAllTime = "https://fcctop100.herokuapp.com/api/fccusers/top/alltime";
-var apiRecent = "https://fcctop100.herokuapp.com/api/fccusers/top/recent";
+import config from './config';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       persons: [],
-      
+      colorRecent: "black",
+      colorAllTime: "blue"
     }
   }
 
-
-  getData(apiLink){
-    axios.get(apiLink)
+  getData(apiLink) {
+    axios.get(config.apiBaseUrl + apiLink)
       .then(res => {
         const persons = res.data;
         this.setState({ persons });
@@ -26,17 +23,18 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.getData("https://fcctop100.herokuapp.com/api/fccusers/top/alltime");
+    this.getData("/fccusers/top/alltime");
   }
 
 
   changeToRecent() {
-    this.getData("https://fcctop100.herokuapp.com/api/fccusers/top/recent");
-   
+    this.setState({ colorRecent: "blue", colorAllTime: "black" });
+    this.getData("/fccusers/top/recent");
   }
 
   changeToAllTime() {
-    this.getData("https://fcctop100.herokuapp.com/api/fccusers/top/alltime");
+    this.setState({ colorRecent: "black", colorAllTime: "blue" });
+    this.getData("/fccusers/top/alltime");
   }
 
 
@@ -54,11 +52,10 @@ class App extends Component {
                   Camper Name
           </th>
                 <th>
-                  <a href="#" onClick={() => this.changeToRecent()}>Points in past 30 days</a>
-
+                  <a style={{color:this.state.colorRecent}} href="#" onClick={() => this.changeToRecent()}>Points in past 30 days</a>
                 </th>
                 <th>
-                  <a href="#" onClick={() => this.changeToAllTime()}>All Time</a>
+                  <a style={{color:this.state.colorAllTime}} href="#" onClick={() => this.changeToAllTime()}>All Time</a>
                 </th>
               </tr>
             </thead>
