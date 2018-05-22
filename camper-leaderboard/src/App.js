@@ -8,41 +8,35 @@ var apiAllTime = "https://fcctop100.herokuapp.com/api/fccusers/top/alltime";
 var apiRecent = "https://fcctop100.herokuapp.com/api/fccusers/top/recent";
 
 class App extends Component {
-  state = {
-    persons: [],
-    url: "https://fcctop100.herokuapp.com/api/fccusers/top/alltime"
+  constructor() {
+    super();
+    this.state = {
+      persons: [],
+      
+    }
   }
 
-  componentDidMount() {
-    axios.get(this.state.url)
+
+  getData(apiLink){
+    axios.get(apiLink)
       .then(res => {
         const persons = res.data;
         this.setState({ persons });
       })
-    }
-    
+  }
 
-    componentWillUnmount() {
-    
+  componentWillMount() {
+    this.getData("https://fcctop100.herokuapp.com/api/fccusers/top/alltime");
   }
 
 
-  displayCamperLeader() {
-    {
-      this.state.persons.map(p => {
-        var name = "https://www.freecodecamp.org/" + p.username;
-        return <tr key={p.username}>
-          <td> {this.state.persons.indexOf(p) + 1} </td>
-          <td> <img src={p.img} /> <a target="_blank" href={name} >{p.username}</a> </td>
-          <td> {p.recent} </td>
-          <td> {p.alltime} </td>
-        </tr>
-      })
-    }
+  changeToRecent() {
+    this.getData("https://fcctop100.herokuapp.com/api/fccusers/top/recent");
+   
   }
 
-  send(){
-    this.setState({url:"https://fcctop100.herokuapp.com/api/fccusers/top/recent"})
+  changeToAllTime() {
+    this.getData("https://fcctop100.herokuapp.com/api/fccusers/top/alltime");
   }
 
 
@@ -60,12 +54,12 @@ class App extends Component {
                   Camper Name
           </th>
                 <th>
-                  <a href="#" onClick={this.send.bind(this)}>Points in past 30 days</a>
+                  <a href="#" onClick={() => this.changeToRecent()}>Points in past 30 days</a>
 
-          </th>
+                </th>
                 <th>
-                  <a href="#" >All Time</a>
-          </th>
+                  <a href="#" onClick={() => this.changeToAllTime()}>All Time</a>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -82,10 +76,8 @@ class App extends Component {
               }
             </tbody>
           </table>
-
         }
       </div>
-
     )
   }
 }
