@@ -5,9 +5,10 @@ class DisplayRecipes extends Component {
 
 
     displayInList() {
-
-        return (<li> {this.props.currentRecipes.map(element => { return  element })} </li>)
-
+        var number = 10;
+        return this.props.currentRecipes.map((element) => {
+            return  <li style={{fontSize:20}}> <a href="#" >{element.recipeName} </a> </li>}) 
+    
     }
 
 
@@ -17,7 +18,7 @@ class DisplayRecipes extends Component {
             <div>
                 <h1>display Recipe</h1>
                 <ul>
-                    {this.displayInList}
+                  {this.displayInList()}
                 </ul>
             </div>
         );
