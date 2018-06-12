@@ -1,0 +1,31 @@
+.App {
+  text-align: center;
+}
+
+.Navbar{
+  
+}
+
+.AddInputBox{
+
+ padding-top:20px;
+ font-size: 20px;
+  box-shadow:0 10px 20px rgb(127, 216, 247)  ;
+
+  width:354px;
+
+}
+
+ html{
+   background-color: #C3ECFA;
+}
+
+.editOptions{
+   text-align: center;
+}
+
+.button{
+  font-size:18px;
+  color:#046A89;
+
+}
