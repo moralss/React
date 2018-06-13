@@ -1,2 +1,0 @@
-# React
-creating react applications
