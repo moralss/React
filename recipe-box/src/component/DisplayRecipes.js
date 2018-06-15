@@ -26,7 +26,7 @@ class DisplayRecipes extends Component {
         return (
 
             <div style={{ display: "grid", justifyContent: "center" }}>
-                <h1 style={{textAlign:"center" , color:"#046A89"}}> Display Recipes</h1>
+                <h1 style={{textAlign:"center" , color:"#046A89"}}> Saved Recipes</h1>
                 {
                     this.props.displayRecipes.map(element => {
                         return <div>
@@ -35,7 +35,8 @@ class DisplayRecipes extends Component {
                                  textAlign: "center", margin: "4px", padding: "4px" }}>
                                 <a href="#" style={{color:"#046A89"}} onClick={() => this.displayElement(element)}>
                                     {element.recipeName} </a> </div>
-                            <h1 style={{textAlign:"center" , color:"#1553E2"}}>{this.state.selectedRecipe === element ? element.ingredient : null}</h1>
+                            <h1 style={{textAlign:"center" , color:"#1553E2"}}>{this.state.selectedRecipe === element ?
+                                 element.ingredient : null}</h1>
 
                             {this.state.selectedRecipe === element ?
                                 <EditRecipe recipes={this.props.displayRecipes}
