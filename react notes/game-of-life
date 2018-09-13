@@ -179,7 +179,8 @@ class Grid extends React.Component {
         <div className={this.state.element}>
           <div className='grid-container'>
             {this.state.gridComponets.map(x => (
-              <button key={this.state.gridComponets.indexOf(x)} onClick={e => this.addCells(x)} className={x.status === 'alive' ? 'cell alive' : 'cell dead'} ></button>
+              <button key={this.state.gridComponets.indexOf(x)} onClick={e =>
+               this.addCells(x)} className={x.status === 'alive' ? 'cell alive' : 'cell dead'} ></button>
             ))}
           </div>
         </div>

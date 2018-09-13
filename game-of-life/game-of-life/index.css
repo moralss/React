@@ -1,0 +1,38 @@
+button {
+    height: 1.5em;
+    width: 1.5em;  
+    border-color: #337ab7;
+}
+
+#pauseOrPlay {
+    height: 3em;
+    width: 4em;
+}
+
+#speedChange {
+    background-color: #337ab7;
+    height: 3em;
+    width: 4em;
+}
+
+#gameDetails {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 80px 80px 80px 80px 80px 80px 80px;
+}
+
+button:hover {
+    background-color: #EEEEEE;
+}
+
+#true {
+    background-color: #339ab7;
+}
+
+#grid {
+    display: grid;
+    grid-template-columns:
+     23px 23px 23px 23px 23px 
+     23px 23px 23px 23px 23px
+      23px 23px 23px 23px 23px 23px 23px 23px 23px 23px;
+}

@@ -1,28 +1,53 @@
-.App {
+button {
+  height: 1.5rem;
+  width: 3rem;
+  margin: 4px;
+  border-color: #337ab7;
+}
+
+#pauseOrPlay {
+  height: 3em;
+  width: 4em;
+}
+
+#speedChange {
+  background-color: #337ab7;
+
+  height: 3em;
+  width: 4em;
+}
+
+#gameInfo{
+  display: grid;
+  justify-content: center;
   text-align: center;
+  margin:10px;
+  grid-template-columns: repeat(3 , 180px);
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+
+
+#gameDetails {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(3 , 60px);
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+button:hover {
+  background-color: #EEEEEE;
 }
 
-.App-title {
-  font-size: 1.5em;
+#true {
+  background-color: #339ab7;
 }
 
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+#grid {
+  display: grid;
+  grid-gap:2px;
+  grid-template-rows:repeat(10 , 50px);
+  grid-template-columns:repeat(10 , 50px);
+  justify-content: center;
+  /* grid-template-columns: 40px 40px 40px 40px
+  40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 
+  40px 40px 40px 40px 40px 40px; */
 }
