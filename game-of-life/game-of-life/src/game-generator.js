@@ -7,14 +7,12 @@ function createGridToDisplay(aliveCells) {
     }
 
     aliveCells.forEach(currentAlive => {
-        var aliveCellFindOnGrid = gridToDisplay.find(existGridcell =>
-            existGridcell.xAxis === currentAlive.xAxis &&
-            existGridcell.yAxis === currentAlive.yAxis);
+        let aliveCellToDisplay = gridToDisplay.find(existGridcell =>
+            existGridcell.xAxis === currentAlive.xAxis && existGridcell.yAxis === currentAlive.yAxis);
+            console.log("aliveCellToDisplay" , aliveCellToDisplay);
 
-
-        if (aliveCellFindOnGrid) {
-
-            gridToDisplay[gridToDisplay.indexOf(aliveCellFindOnGrid)].status = true;
+        if (aliveCellToDisplay) {
+            gridToDisplay[gridToDisplay.indexOf(aliveCellToDisplay)].status = true;
         }
     });
 
@@ -31,7 +29,6 @@ function getAllNeighbors(object) {
         [object.xAxis + 1, object.yAxis + 1],
         [object.xAxis, object.yAxis - 1],
         [object.xAxis, object.yAxis + 1]];
-
     return allItsNeighbors;
 }
 
@@ -42,8 +39,6 @@ function getLowestAndHighest(allAliveCells) {
     allAliveCells.forEach(alive => {
         allXAxis.push(alive.xAxis);
         allYAxis.push(alive.yAxis);
-        // console.log("all X Axios" , allXAxis , "all Y Axios" ,  allYAxis);
-
     });
 
     var lowestX = allXAxis.sort((a, b) => a - b)[0];
@@ -51,22 +46,20 @@ function getLowestAndHighest(allAliveCells) {
     var lowestY = allYAxis.sort((a, b) => a - b)[0];
     var highestY = allYAxis.sort((a, b) => b - a)[0];
 
-// console.log({ lowestX: lowestX, lowestY: lowestY,  highestX: highestX , highestY: highestY  });
-
-    return { lowestX: lowestX, lowestY: lowestY,  highestX: highestX , highestY: highestY  }
+    return { lowestX, lowestY,  highestX , highestY}
 
 }
 
 
 
 function getNextGeneration(currentGeneration) {
-    var grid = [];
+    let grid = [];
     var newGeneration = [];
     if (currentGeneration === undefined) {
         currentGeneration = [];
     }
 
-    var lowestAndHighest = getLowestAndHighest(currentGeneration)
+    let lowestAndHighest = getLowestAndHighest(currentGeneration)
     for (let yAxisCounter = lowestAndHighest.lowestY - 2; yAxisCounter <= lowestAndHighest.highestY + 2; yAxisCounter++) {
         for (let xAxisCounter = lowestAndHighest.lowestX - 2; xAxisCounter <= lowestAndHighest.highestX + 2; xAxisCounter++) {
             // console.log("y" , yAxisCounter , 'x', xAxisCounter);
@@ -76,21 +69,23 @@ function getNextGeneration(currentGeneration) {
     }
 
     currentGeneration.forEach(currentCell => {
-        var cellFound = grid.find(cell => cell.xAxis === currentCell.xAxis && cell.yAxis === currentCell.yAxis);
-        var position = grid.indexOf(cellFound);
-        grid[position].status = true
+        let aliveCellFound = grid.find(cell => cell.xAxis === currentCell.xAxis && cell.yAxis === currentCell.yAxis);    
+        let aliveCellPosition = grid.indexOf(aliveCellFound);
+        grid[aliveCellPosition].status = true
     });
+
+    let match = [];
 
     grid.forEach(gridCell => {
         // console.log("currentCellNeighbors " , gridCell);
 
         var aliveNeighbors = [];
-        var currentItemsNeighbors = getAllNeighbors(gridCell);
-        // console.log("split");
+        var currentCellNeighbors = getAllNeighbors(gridCell);
+        currentCellNeighbors.forEach(singleNeighbor => {
 
-        currentItemsNeighbors.forEach(singleNeighbor => {
             var neighborMatch = grid.find(cell => cell.xAxis === singleNeighbor[0] && cell.yAxis === singleNeighbor[1]);
-            // console.log("neighborMatch" , neighborMatch);
+            console.log("neighborMatch" , neighborMatch);
+
             if (neighborMatch !== undefined && neighborMatch.status === true) {
                 aliveNeighbors.push(neighborMatch);
                 // console.log("aliveNeighbors" , aliveNeighbors);
@@ -100,15 +95,20 @@ function getNextGeneration(currentGeneration) {
 
         if (gridCell.status === false && aliveNeighbors.length === 3) {
             newGeneration.push(gridCell)
+            // console.log("first if statement" , gridCell);
 
         } else if (gridCell.status === true && (aliveNeighbors.length === 2 || aliveNeighbors.length === 3)) {
             newGeneration.push(gridCell)
+            // console.log("second if statement" , gridCell);
         }
     });
+
 
     newGeneration.forEach(newCell => {
         newCell.status = true;
     });
+
+    console.log("new Generation" , newGeneration);
 
     var display = createGridToDisplay(newGeneration)
     return { aliveCells: newGeneration, gridDisplay: display };

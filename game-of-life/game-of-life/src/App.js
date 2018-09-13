@@ -62,22 +62,19 @@ class App extends Component {
     this.state.grid.forEach(element => {
       element.status ? element.status = false :
         this.setState({ grid: this.state.grid, aliveCells: [] })
-
     })
   }
 
 
   toggleAliveOrDead(cell) {
     var cellPosition = this.state.grid.indexOf(cell);
-
-    console.log("cellPosition" , cellPosition);
+    // console.log("cellPosition" , cellPosition);
 
     if (cell.status) {
       this.state.grid[cellPosition].status = false;
 
       let aliveCells = this.state.aliveCells;
       var positionInAlive = aliveCells.indexOf(aliveCells.find(alive => alive.xAxis === alive.xAxis && alive.yAxis === alive.yAxis));
-
       aliveCells.splice(positionInAlive, positionInAlive + 1)
 
     } else {
