@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import Cell from './Component/Cell';
 
 class App extends Component {
   constructor() {
@@ -52,41 +51,36 @@ class App extends Component {
       [object.xAxis, object.yAxis - 1],
       [object.xAxis, object.yAxis + 1]]
     return allItsNeighbors;
-
   }
 
 
   pauseGame() {
     let changeGameMode = 'off';
     this.setState({ changeGameMode });
-
   }
 
   clearBoard() {
     this.setState({ changeGameMode: 'clear' });
     this.generateNextGen()
-
     this.state.fakeGrid.forEach(element => {
       if (element.status === true) {
         element.status = false;
       }
       this.setState({ aliveCells: [] })
     })
-
-    // this.setState({ changeGameMode: 'clear' });
-
   }
 
 
   generateNextGen() {
-
-    // this.setState({changeGameMode : 'on'});
-
     let gameSimulation = setInterval(() => {
-
       if (this.state.aliveCells.length === 0 && this.state.changeGameMode === 'clear') {
         this.setState({ generationCount: 0 });
         clearInterval(gameSimulation);
+      }
+
+      if (this.state.aliveCells.length === 0) {
+        clearInterval(gameSimulation);
+        this.setState({ generationCount: 0 });
       }
 
       if (this.state.changeGameMode == 'off') {
@@ -98,23 +92,17 @@ class App extends Component {
         gameSimulation;
       }
 
-      // if (this.state.changeGameMode == 'clear') {
-      //   clearInterval(gameSimulation);
-      //   this.removeAliveCells()
-      // }
-
-
       let distance = this.getHighestAndLowest();
       this.createFake(distance);
       this.determineNextGen();
       console.log(this.state.generationCount);
+
     }, 1000);
   }
 
 
   playGame() {
     this.setState({ changeGameMode: 'on' });
-
     this.generateNextGen()
 
 
@@ -137,18 +125,16 @@ class App extends Component {
       allNeighbors.forEach(singleNeighbor => {
         var neighborMatch = this.state.fakeGrid.find(cell => cell.xAxis === singleNeighbor[0] &&
           cell.yAxis === singleNeighbor[1]);
-
         if (neighborMatch !== undefined && neighborMatch.status === true) {
           aliveNeighbors.push(neighborMatch);
         }
       });
-
+      
       if (gridCell.status === false && aliveNeighbors.length === 3) {
         newGeneration.push({ ...gridCell, status: true })
       } else if (gridCell.status === true && (aliveNeighbors.length === 2 || aliveNeighbors.length === 3)) {
         newGeneration.push({ ...gridCell, status: true })
       }
-
     });
 
     this.setState({ aliveCells: newGeneration })
@@ -156,19 +142,31 @@ class App extends Component {
   }
 
 
-  componentWillMount() {
-    this.displayGrid()
-
+  componentDidMount() {
+    let currentGeneration = [];
+    for (let secondIndex = 2; secondIndex < 9; secondIndex++) {
+      for (let index = 2; index < 9; index++) {
+        let newItem = { xAxis: Math.floor(Math.random() * 9), yAxis: Math.floor(Math.random() * 9), status: true };
+        if (currentGeneration.indexOf(newItem) === -1) {
+          currentGeneration.push(newItem);
+        }
+      }
+    }
+    this.generateNextGen();
+    this.setState({ aliveCells: currentGeneration });
+    this.createGrid(currentGeneration)
   }
 
 
   displayGrid() {
     let grid = this.createGrid();
     this.setState({ gridToDisplay: grid });
+    console.log(this.state.aliveCells);
   }
 
 
   createGrid(aliveCells) {
+
     var gridToDisplay = [];
     for (let yAxisCounter = 0; yAxisCounter <= 9; yAxisCounter++) {
       for (let xAxisCounter = 0; xAxisCounter <= 9; xAxisCounter++) {
@@ -177,18 +175,17 @@ class App extends Component {
     }
 
     this.setState({ gridToDisplay: gridToDisplay });
-    let copy = [...this.state.gridToDisplay];
     if (aliveCells !== undefined) {
       aliveCells.forEach(currentCell => {
-        let aliveCellFound = copy.find(cell => cell.xAxis === currentCell.xAxis &&
+        let aliveCellFound = gridToDisplay.find(cell => cell.xAxis === currentCell.xAxis &&
           cell.yAxis === currentCell.yAxis);
         if (aliveCellFound !== undefined) {
-          let aliveCellPosition = copy.indexOf(aliveCellFound);
-          copy[aliveCellPosition].status = true;
+          let aliveCellPosition = gridToDisplay.indexOf(aliveCellFound);
+          gridToDisplay[aliveCellPosition].status = true;
         }
-        this.setState({ gridToDisplay: copy });
+        this.setState({ gridToDisplay: gridToDisplay });
       });
-      return copy;
+      return gridToDisplay;
     }
     return gridToDisplay;
   }
@@ -210,7 +207,6 @@ class App extends Component {
       this.setState({ gridToDisplay: currentGrid });
     }
     this.getAliveCells();
-
   }
 
   getAliveCells() {
@@ -223,7 +219,6 @@ class App extends Component {
     })
   }
 
-
   render() {
     return (
       <div className="App" >
@@ -232,7 +227,6 @@ class App extends Component {
           <button onClick={() => this.playGame()}> Play </button>
           <button onClick={() => this.pauseGame()}> Pause </button>
           <button onClick={() => this.clearBoard()}> Clear </button>
-          {/* <Cell cell={cell} /> */}
         </div>
         <div className="grid"> {this.state.gridToDisplay.map(cell => {
           return (<button key={this.state.gridToDisplay.indexOf(cell)}
