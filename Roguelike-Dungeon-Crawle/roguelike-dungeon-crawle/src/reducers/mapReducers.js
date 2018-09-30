@@ -5,14 +5,10 @@ const initialState = {
 
 const mapReducers = (state = initialState, action) => {
     switch (action.type) {
-        case 'ADD_TILES':
-            return {
-                ...action.payload
-            }
-        
-        default:
-            return state
+        case 'UPDATE_GRID':
+            return { ...state, tiles: action.payload }
     }
+    return state;
 }
 
 export default mapReducers;

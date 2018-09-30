@@ -1,22 +1,43 @@
+/* blocks */
+*{
+  font-size:12px;
+}
+.point{
+  background:green;
+}
+
+.weapon2{
+  background-color:salmon;
+}
+
+.enemy{
+  background-color:red;
+
+}
+
+.weapon1{
+  background:blueviolet;
+}
 
 .tile{
-  display : inline-flex;
+  border: 1px solid green;
 }
 
- /* .grass{
+.health{
   background-color:orangered;
-} */
-
-.rock {
-  background-color:lightseagreen;
 }
 
+/* blocks */
 
-.car{
-  background-color:silver;
+
+
+.map{
+  display:grid;
+  justify-content: center;
+  font-size:10px;
+  grid-gap:-20px;
+  grid-template-columns: repeat(10 , 50px);
+  grid-template-rows: repeat(10 , 50px);
 }
 
-.tree{
-  background-color:blueviolet;
-}
 
