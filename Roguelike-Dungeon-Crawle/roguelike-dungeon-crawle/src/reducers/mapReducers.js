@@ -7,8 +7,9 @@ const mapReducers = (state = initialState, action) => {
     switch (action.type) {
         case 'UPDATE_GRID':
             return { ...state, tiles: action.payload }
+        default:
+            return state;
     }
-    return state;
 }
 
 export default mapReducers;

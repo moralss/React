@@ -4,6 +4,15 @@ export const movePlayer = (coordinates) => {
         payload: coordinates
     }
 }
+
+export const moveToOldPosition = (coordinates) => {
+    return {
+        type: 'MOVE_TO_OLD_POSITION',
+        payload: coordinates
+    }
+
+}
+
 export const changeGrid = (newGrid) => {
     return {
         type: 'UPDATE_GRID',
@@ -17,6 +26,7 @@ export const getHealth = (object) => {
         payload: object
     }
 }
+
 
 export const getWeapon = (object) => {
     return {
@@ -32,3 +42,25 @@ export const getEnemy = (object) => {
     }
 }
 
+export const useWeaponPower = (object) => {
+    return {
+        type: 'SUBTRACT_WEAPON',
+        payload: object
+    }
+}
+
+export const subtractLive = (amount) => {
+    return {
+        type: 'SUBTRACT_LIVE',
+        payload: amount
+    }
+}
+
+
+
+export const nextLevel = () => {
+    return {
+        type: 'NEXT_LEVEL',
+        payload: 0
+    }
+}

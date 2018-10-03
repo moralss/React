@@ -30,6 +30,19 @@
 /* blocks */
 
 
+/* menu-bar */
+.menu-bar{
+  display:grid;
+  grid-template-columns: repeat(4 , minmax(50px , 20px));
+  justify-content: center;
+  margin:20px;
+  text-align:center;
+}
+
+
+
+
+/* menu-bar */
 
 .map{
   display:grid;
