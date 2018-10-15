@@ -1,15 +1,13 @@
 const initialState = {
-  position: { x: 0, y: 0 }
+  position: { x: 7, y: 7 }
 };
 
 const playerReducer = (state = initialState, action) => {
   switch (action.type) {
     case "MOVE_PLAYER":
       return { ...state, position: action.payload };
-    case "MOVE_TO_OLD_POSITION":
-      return { ...state, oldPosition: action.payload };
-    case "TOGGLE_GAME_MODE":
-      return { ...state, position: { x: 0, y: 0 } };
+    case "RESET_GAME":
+      return { ...state, position: { x: 7, y: 7 } };
 
     default:
       return state;

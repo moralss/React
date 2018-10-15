@@ -12,22 +12,10 @@ export const gameOver = status => {
   };
 };
 
-export const activateShowGrid = () => {
+export const toggleShowGrid = boolean => {
   return {
-    type: "SHOW_GRID"
-  };
-};
-
-export const activateHideGrid = () => {
-  return {
-    type: "SHOW_GRID"
-  };
-};
-
-export const moveToOldPosition = coordinates => {
-  return {
-    type: "MOVE_TO_OLD_POSITION",
-    payload: coordinates
+    type: "TOGGLE_SHOW_GRID",
+    payload: boolean
   };
 };
 
@@ -52,9 +40,8 @@ export const updateLevel = value => {
   };
 };
 
-export const toggleGameMode = status => {
+export const resetGame = () => {
   return {
-    type: "TOGGLE_GAME_MODE",
-    payload: status
+    type: "RESET_GAME"
   };
 };

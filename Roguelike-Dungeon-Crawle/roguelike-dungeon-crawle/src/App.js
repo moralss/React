@@ -12,8 +12,8 @@ class App extends Component {
     super();
     this.state = {
       tiles: [],
-      player: { x: 0, y: 0 },
-      oldLocation: { x: 0, y: 0 }
+      player: { x: 7, y: 7 },
+      oldLocation: { x: 7, y: 7 }
     };
   }
 
@@ -28,14 +28,15 @@ class App extends Component {
     if (nextLocation) {
       if (nextLocation.tile === "enemy") {
         if (
-          this.props.gameState.weaponPower === 0 &&
-          this.props.gameState.lives === 0
+          this.props.gameStatus.weaponPower === 0 &&
+          this.props.gameStatus.lives === 0
         ) {
-          alert("game over you lost");
-          // this.props.gameOver("lost");
+          this.setGameOver("over");
+          var initialGrid = createGridToDisplay();
+          this.props.updateGrid(initialGrid);
         }
 
-        if (this.props.gameState.weaponPower > 0) {
+        if (this.props.gameStatus.weaponPower > 0) {
           this.props.useWeaponPower(1);
           this.props.moveToNewLocation({
             x: nextLocation.x,
@@ -45,8 +46,8 @@ class App extends Component {
         }
 
         if (
-          this.props.gameState.weaponPower === 0 &&
-          this.props.gameState.lives > 0
+          this.props.gameStatus.weaponPower === 0 &&
+          this.props.gameStatus.lives > 0
         ) {
           this.props.subtractLive(1);
           this.props.moveToNewLocation({ x: oldLocation.x, y: oldLocation.y });
@@ -56,15 +57,48 @@ class App extends Component {
         isMove = false;
       }
 
-      if (nextLocation.tile === "health") {
-        isMove = true;
-        this.props.getHealth(nextLocation);
+      if (nextLocation.tile === "boss") {
+        if (
+          this.props.gameStatus.weaponPower <= 3 &&
+          this.props.gameStatus.lives <= 3
+        ) {
+          this.setGameOver("over");
+          var initialGrid = createGridToDisplay();
+          this.props.updateGrid(initialGrid);
+        }
+
+        if (this.props.gameStatus.weaponPower >= 3) {
+          this.props.useWeaponPower(1);
+          this.props.moveToNewLocation({
+            x: nextLocation.x,
+            y: nextLocation.y
+          });
+          this.setState({ player: playerPosition, oldLocation: oldLocation });
+          this.setGameOver("win");
+          
+        }
+
+        if (
+          this.props.gameStatus.weaponPower === 0 &&
+          this.props.gameStatus.lives > 0
+        ) {
+          this.props.subtractLive(1);
+          this.props.moveToNewLocation({ x: oldLocation.x, y: oldLocation.y });
+          this.setState({ player: oldLocation });
+        }
+
+        isMove = false;
       }
 
       if (nextLocation.tile === "wall") {
         isMove = false;
         this.props.moveToNewLocation({ x: oldLocation.x, y: oldLocation.y });
         this.setState({ player: oldLocation });
+      }
+
+      if (nextLocation.tile === "health") {
+        isMove = true;
+        this.props.getHealth(nextLocation);
       }
 
       if (nextLocation.tile === "weapon1") {
@@ -89,28 +123,26 @@ class App extends Component {
     }
   }
 
+  setGameOver(status) {
+    alert(`game ${status}!`);
+    this.setState({ player: { x: 7, y: 7 } });
+    this.setState({ oldLocation: { x: 7, y: 7 } });
+    this.props.resetGame();
+  }
+
   toggleGamePlay = status => {
     if (status === true) {
       var initialGrid = createGridToDisplay();
       this.props.updateGrid(initialGrid);
-
-      window.addEventListener("keydown", e => {
-        this.handleKeyDown(e);
-      });
     } else if (status === false) {
-      this.setState({ player: { x: 0, y: 0 } });
-      this.setState({ oldLocation: { x: 0, y: 0 } });
-      this.props.toggleGameMode(true);
-      // this.props.updateGrid([]);
+      this.setGameOver("reset");
     }
   };
 
   componentDidMount() {
-    // var initialGrid = createGridToDisplay();
-    // this.props.updateGrid(initialGrid);
-    // window.addEventListener("keydown", e => {
-    //   this.handleKeyDown(e);
-    // });
+    window.addEventListener("keydown", e => {
+      this.handleKeyDown(e);
+    });
   }
 
   handleKeyDown(event) {
@@ -125,8 +157,6 @@ class App extends Component {
       playerPosition = { x: playerPosition.x, y: playerPosition.y + 1 };
     }
 
-    // this.props.showRestOfGrid();
-    // showSmallGrid(playerPosition);
     this.determineMovement(playerPosition);
   }
 
@@ -147,7 +177,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    gameState: state.gameStateReducers,
+    gameStatus: state.gameStatus,
     playerMovement: state.player,
     map: state.map
   };
@@ -155,17 +185,14 @@ function mapStateToProps(state) {
 
 function dispatchStateToProps(dispatch) {
   return {
-    toggleGameMode: status => dispatch(actions.toggleGameMode(status)),
+    resetGame: status => dispatch(actions.resetGame(status)),
     updateGrid: newGrid => dispatch(actions.changeGrid(newGrid)),
     moveToNewLocation: newLocation => dispatch(actions.movePlayer(newLocation)),
     getHealth: object => dispatch(interactions.getHealth(object)),
     getEnemy: object => dispatch(interactions.getEnemy(object)),
     getWeapon: object => dispatch(interactions.getWeapon(object)),
     useWeaponPower: amount => dispatch(interactions.useWeaponPower(amount)),
-    subtractLive: amount => dispatch(interactions.subtractLive(amount)),
-    moveToOldPosition: object => dispatch(actions.moveToOldPosition(object)),
-    // gameOver: object => dispatch(actions.gameOver(object)),
-    showRestOfGrid: () => dispatch(actions.activateShowGrid())
+    subtractLive: amount => dispatch(interactions.subtractLive(amount))
   };
 }
 

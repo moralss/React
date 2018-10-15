@@ -1,6 +1,6 @@
 import store from "../config/store";
 
-export function createGridToDisplay( isBossEnabled = false) {
+export function createGridToDisplay(isBossEnabled) {
   let gameGrid = [];
   let gridEndingValue = 14;
   for (let y = 0; y <= gridEndingValue; y++) {
@@ -34,60 +34,71 @@ function createCellName(name, randomEnd) {
 function generateRandomTiles(isBossEnabled) {
   let randomEnd = 14;
   let tiles = [];
-    for (let secondIndex = 12; secondIndex < randomEnd; secondIndex++) {
-      for (let index = 12; index < randomEnd; index++) {
-        let health = createCellName("health", randomEnd);
-        if (tiles.indexOf(health) === -1) {
-          tiles.push(health);
-        }
-      }
-    }
 
-    for (let secondIndex = 12; secondIndex < randomEnd; secondIndex++) {
-      for (let index = 12; index < randomEnd; index++) {
-        let health = createCellName("health", randomEnd);
-        if (tiles.indexOf(health) === -1) {
-          tiles.push(health);
+  if (isBossEnabled === true) {
+    for (let secondIndex = 13; secondIndex < randomEnd; secondIndex++) {
+      for (let index = 13; index < randomEnd; index++) {
+        let boss = createCellName("boss", randomEnd);
+        if (tiles.indexOf(boss) === -1) {
+          tiles.push(boss);
         }
       }
     }
+  }
 
-    for (let secondIndex = 11; secondIndex < randomEnd; secondIndex++) {
-      for (let index = 11; index < randomEnd; index++) {
-        let weapon = createCellName("weapon1", randomEnd);
-        if (tiles.indexOf(weapon) === -1) {
-          tiles.push(weapon);
-        }
+  for (let secondIndex = 12; secondIndex < randomEnd; secondIndex++) {
+    for (let index = 12; index < randomEnd; index++) {
+      let health = createCellName("health", randomEnd);
+      if (tiles.indexOf(health) === -1) {
+        tiles.push(health);
       }
     }
+  }
 
-    for (let secondIndex = 8; secondIndex < randomEnd; secondIndex++) {
-      for (let index = 8; index < randomEnd; index++) {
-        let enemy = createCellName("enemy", randomEnd);
-        if (tiles.indexOf(enemy) === -1) {
-          tiles.push(enemy);
-        }
+  for (let secondIndex = 12; secondIndex < randomEnd; secondIndex++) {
+    for (let index = 12; index < randomEnd; index++) {
+      let health = createCellName("health", randomEnd);
+      if (tiles.indexOf(health) === -1) {
+        tiles.push(health);
       }
     }
+  }
 
-    for (let secondIndex = 12; secondIndex < randomEnd; secondIndex++) {
-      for (let index = 12; index < randomEnd; index++) {
-        let weapon2 = createCellName("weapon2", randomEnd);
-        if (tiles.indexOf(weapon2) === -1) {
-          tiles.push(weapon2);
-        }
+  for (let secondIndex = 11; secondIndex < randomEnd; secondIndex++) {
+    for (let index = 11; index < randomEnd; index++) {
+      let weapon = createCellName("weapon1", randomEnd);
+      if (tiles.indexOf(weapon) === -1) {
+        tiles.push(weapon);
       }
     }
+  }
 
-    for (let secondIndex = 8; secondIndex < randomEnd; secondIndex++) {
-      for (let index = 8; index < randomEnd; index++) {
-        let wall = createCellName("wall", randomEnd);
-        if (tiles.indexOf(wall) === -1) {
-          tiles.push(wall);
-        }
+  for (let secondIndex = 8; secondIndex < randomEnd; secondIndex++) {
+    for (let index = 8; index < randomEnd; index++) {
+      let enemy = createCellName("enemy", randomEnd);
+      if (tiles.indexOf(enemy) === -1) {
+        tiles.push(enemy);
       }
     }
-   
+  }
+
+  for (let secondIndex = 12; secondIndex < randomEnd; secondIndex++) {
+    for (let index = 12; index < randomEnd; index++) {
+      let weapon2 = createCellName("weapon2", randomEnd);
+      if (tiles.indexOf(weapon2) === -1) {
+        tiles.push(weapon2);
+      }
+    }
+  }
+
+  for (let secondIndex = 8; secondIndex < randomEnd; secondIndex++) {
+    for (let index = 8; index < randomEnd; index++) {
+      let wall = createCellName("wall", randomEnd);
+      if (tiles.indexOf(wall) === -1) {
+        tiles.push(wall);
+      }
+    }
+  }
 
   return tiles;
 }

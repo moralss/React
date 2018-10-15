@@ -24,8 +24,9 @@
   background-color: red;
 }
 
-.boss{
-  background-color:purple;
+.boss {
+  background-color: sienna;
+  border: 3px solid green;
 }
 
 .wall {
@@ -79,6 +80,6 @@
 }
 
 .tile-hidden {
-  /* opacity: 0.0; */
+  opacity: 0;
   /*background-color:black;*/
 }

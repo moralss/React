@@ -9,26 +9,27 @@ class MenuBar extends React.Component {
     super();
     this.state = {
       level: 0,
-      gameMode: false
+      isGameMode: false,
+      isShowGrid: false
     };
   }
 
-  toggleShowGrid = () => {};
+  toggleShowGrid() {
+    let isShowGrid = !this.state.isShowGrid ? true : false;
+    this.setState({ isShowGrid: isShowGrid });
+    this.props.toggleShowGrid(isShowGrid);
+  }
 
-  playGame(){
-
-    !this.state.gameMode
-      ? this.setState({ gameMode: true })
-      : this.setState({ gameMode: false });
-    this.props.toggleGamePlay(this.state.gameMode);
-  };
+  playGame() {
+    let isGameMode = !this.state.isGameMode ? true : false;
+    this.setState({ isGameMode: isGameMode });
+    this.props.toggleGamePlay(isGameMode);
+  }
 
   componentWillReceiveProps() {
-    if (this.props.gameState.enemysKilled === 1) {
-      // console.log("enter");
-
+    const { level, enemysKilled } = this.props.gameStatus;
+    if (level === 1 && enemysKilled === 1) {
       let isBossEnabled = true;
-
       let nextLevelGrid = createGridToDisplay(isBossEnabled);
       this.props.updateGrid(nextLevelGrid);
       this.props.updateLevel(1);
@@ -36,31 +37,36 @@ class MenuBar extends React.Component {
   }
 
   render() {
+    const { lives, weaponPower, enemysKilled, level } = this.props.gameStatus;
     return (
       <div className="menu-bar">
         <div>
           <label> lives </label>
-          <span> {this.props.gameState.lives}</span>
+          <span> {lives}</span>
         </div>
         <div>
           <label> weapon power </label>
-          <span> {this.props.gameState.weaponPower}</span>
+          <span> {weaponPower}</span>
         </div>
         <div>
           <label> enemys killed </label>
-          <span> {this.props.gameState.enemysKilled}</span>
+          <span> {enemysKilled}</span>
         </div>
         <div>
           <label>level </label>
-          <span> {this.props.gameState.level} </span>
+          <span> {level} </span>
         </div>
 
         <div>
-          <button onClick={this.toggleShowGrid()}> Show Grid </button>
+          <button onClick={() => this.toggleShowGrid()}>
+            {!this.state.isShowGrid ? "show full Grid" : "show small grid"}
+          </button>
         </div>
 
         <div>
-          <button onClick={this.playGame.bind(this)}> play game </button>
+          <button onClick={() => this.playGame()}>
+            {!this.state.isGameMode ? "play game" : "quite game"}
+          </button>
         </div>
       </div>
     );
@@ -69,7 +75,7 @@ class MenuBar extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    gameState: state.gameStateReducers,
+    gameStatus: state.gameStatus,
     tiles: state.map.tiles,
     player: state.player.position
   };
@@ -79,7 +85,8 @@ function dispatchStateToProps(dispatch) {
   return {
     updateLevel: value => dispatch(actions.updateLevel(value)),
     moveToNewLocation: object => dispatch(actions.movePlayer(object)),
-    updateGrid: object => dispatch(actions.changeGrid(object))
+    updateGrid: object => dispatch(actions.changeGrid(object)),
+    toggleShowGrid: boolen => dispatch(actions.toggleShowGrid(boolen))
   };
 }
 

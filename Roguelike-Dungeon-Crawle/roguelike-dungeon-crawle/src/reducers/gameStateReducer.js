@@ -3,9 +3,7 @@ const initialState = {
   weaponPower: 0,
   enemysKilled: 0,
   level: 1,
-  smallGrid: [],
-  isSmallGrid: false,
-  isGameMode: false
+  isSmallGrid: false
 };
 
 const playerReducer = (state = initialState, action) => {
@@ -48,19 +46,14 @@ const playerReducer = (state = initialState, action) => {
         enemysKilled: 0
       };
 
-    case "HIDE_GRID":
+    case "TOGGLE_SHOW_GRID":
       return {
         ...state,
-        isSmallGrid: true
+        isSmallGrid:action.payload
       };
 
-    case "SHOW_GRID":
-      return {
-        ...state,
-        isSmallGrid: false
-      };
 
-    case "TOGGLE_GAME_MODE":
+    case "RESET_GAME":
       return {
         ...state,
         isGameMode: false,
