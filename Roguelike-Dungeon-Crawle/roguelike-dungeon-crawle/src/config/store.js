@@ -1,13 +1,14 @@
-import {createStore , combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import playerReducers from '../reducers/playerReducers';
 import mapReducers from '../reducers/mapReducers';
-import {logger} from '../middileware';
+import { logger } from '../middileware';
 import gameStateReducers from '../reducers/gameStateReducer';
-
+import gameToDisplayReducer from '../reducers/gridToDisplayReducer';
 
 const rootReducer = combineReducers({
-    map : mapReducers,
-    player : playerReducers,
+    map: mapReducers,
+    player: playerReducers,
+    gridToDisplay: gameToDisplayReducer,
     gameStateReducers
 })
 
