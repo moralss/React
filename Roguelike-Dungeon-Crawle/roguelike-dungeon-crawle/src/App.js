@@ -67,7 +67,10 @@ class App extends Component {
           this.props.updateGrid(initialGrid);
         }
 
-        if (this.props.gameStatus.weaponPower >= 3) {
+        if (
+          this.props.gameStatus.weaponPower >= 3 &&
+          this.props.gameStatus.enemysKilled >= 13
+        ) {
           this.props.useWeaponPower(1);
           this.props.moveToNewLocation({
             x: nextLocation.x,
@@ -75,7 +78,8 @@ class App extends Component {
           });
           this.setState({ player: playerPosition, oldLocation: oldLocation });
           this.setGameOver("win");
-          
+          var initialGrid = createGridToDisplay();
+          this.props.updateGrid(initialGrid);
         }
 
         if (

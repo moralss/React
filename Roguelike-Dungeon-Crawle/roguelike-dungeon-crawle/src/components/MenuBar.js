@@ -28,7 +28,7 @@ class MenuBar extends React.Component {
 
   componentWillReceiveProps() {
     const { level, enemysKilled } = this.props.gameStatus;
-    if (level === 1 && enemysKilled === 1) {
+    if (level === 1 && enemysKilled === 9) {
       let isBossEnabled = true;
       let nextLevelGrid = createGridToDisplay(isBossEnabled);
       this.props.updateGrid(nextLevelGrid);

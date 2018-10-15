@@ -42,16 +42,14 @@ const playerReducer = (state = initialState, action) => {
     case "NEXT_LEVEL":
       return {
         ...state,
-        level: state.level + action.payload,
-        enemysKilled: 0
+        level: state.level + action.payload
       };
 
     case "TOGGLE_SHOW_GRID":
       return {
         ...state,
-        isSmallGrid:action.payload
+        isSmallGrid: action.payload
       };
-
 
     case "RESET_GAME":
       return {

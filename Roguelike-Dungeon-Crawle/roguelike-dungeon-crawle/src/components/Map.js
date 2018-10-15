@@ -22,7 +22,7 @@ class Map extends React.Component {
           }
 
           const isHidden =
-            !this.props.state.gameStatus.isSmallGrid &&
+            !this.props.isSmallGrid &&
             cell.tile != "Player" &&
             !(
               Math.abs(player.x - cell.x) <= 1 &&
@@ -35,7 +35,7 @@ class Map extends React.Component {
               id={`${cell.show}`}
               className={`tile ${cell.tile} ${isHidden ? "tile-hidden" : ""}`}
             >
-              {cell.x} , {cell.y} , {cell.tile}{" "}
+              {cell.tile}
             </div>
           );
         })}
@@ -46,7 +46,7 @@ class Map extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    state: state,
+    isSmallGrid: state.gameStatus.isSmallGrid,
     tiles: state.map.tiles,
     player: state.player.position
   };
