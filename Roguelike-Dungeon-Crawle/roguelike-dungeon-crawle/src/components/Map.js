@@ -10,6 +10,7 @@ class Map extends React.Component {
 
   render() {
     const { tiles, player, oldLocation } = this.props;
+
     return (
       <div className="map">
         {tiles.map(cell => {
@@ -35,7 +36,7 @@ class Map extends React.Component {
               id={`${cell.show}`}
               className={`tile ${cell.tile} ${isHidden ? "tile-hidden" : ""}`}
             >
-              {cell.tile}
+        
             </div>
           );
         })}
@@ -52,13 +53,8 @@ function mapStateToProps(state) {
   };
 }
 
-function dispatchStateToProps(dispatch) {
-  return {
-    toggleShowGrid: boolen => dispatch(actions.toggleShowGrid(boolen))
-  };
-}
 
 export default connect(
   mapStateToProps,
-  dispatchStateToProps
+  null
 )(Map);

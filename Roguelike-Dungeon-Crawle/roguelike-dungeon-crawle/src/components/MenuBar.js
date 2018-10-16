@@ -14,21 +14,25 @@ class MenuBar extends React.Component {
     };
   }
 
-  toggleShowGrid() {
-    let isShowGrid = !this.state.isShowGrid ? true : false;
-    this.setState({ isShowGrid: isShowGrid });
-    this.props.toggleShowGrid(isShowGrid);
+  enableShowFullGrid() {
+    this.props.toggleShowGrid(true);
+  }
+
+  disableShowFullGrid() {
+    this.props.toggleShowGrid(false);
   }
 
   playGame() {
-    let isGameMode = !this.state.isGameMode ? true : false;
-    this.setState({ isGameMode: isGameMode });
-    this.props.toggleGamePlay(isGameMode);
+    this.props.toggleGamePlay(true);
+  }
+
+  quiteGame() {
+    this.props.toggleGamePlay(false);
   }
 
   componentWillReceiveProps() {
     const { level, enemysKilled } = this.props.gameStatus;
-    if (level === 1 && enemysKilled === 9) {
+    if (level === 1 && enemysKilled === 1) {
       let isBossEnabled = true;
       let nextLevelGrid = createGridToDisplay(isBossEnabled);
       this.props.updateGrid(nextLevelGrid);
@@ -58,15 +62,23 @@ class MenuBar extends React.Component {
         </div>
 
         <div>
-          <button onClick={() => this.toggleShowGrid()}>
-            {!this.state.isShowGrid ? "show full Grid" : "show small grid"}
+          <button onClick={() => this.enableShowFullGrid()}>
+            show full grid
           </button>
         </div>
 
         <div>
-          <button onClick={() => this.playGame()}>
-            {!this.state.isGameMode ? "play game" : "quite game"}
+          <button onClick={() => this.disableShowFullGrid()}>
+            show small grid
           </button>
+        </div>
+
+        <div>
+          <button onClick={() => this.quiteGame()}> quite game </button>
+        </div>
+
+        <div>
+          <button onClick={() => this.playGame()}>play game</button>
         </div>
       </div>
     );

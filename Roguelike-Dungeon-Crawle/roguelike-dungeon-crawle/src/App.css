@@ -3,46 +3,72 @@
   grid-template-columns: 1fr 2fr;
 }
 
-#true {
-  background-color: blue;
+body {
+  /* background-color: black; */
 }
-/* 
 
 /* blocks */
-* {
-  font-size: 12px;
+
+.health {
+  color: green;
 }
-.point {
-  background: green;
+
+.health:after {
+  content: "\26D1";
+  font-size: 25px;
+}
+
+.Player {
+  /* background-color: salmon; */
+}
+
+.Player:after {
+  content: "\1F620";
+  font-size: 30px;
+}
+
+.weapon1 {
+  color: blueviolet;
+}
+
+.weapon1:after {
+  content: "\2692";
+  font-size: 40px;
 }
 
 .weapon2 {
-  background-color: salmon;
+  color: salmon;
+}
+
+.weapon2:after {
+  content: "\2694";
+  font-size: 40px;
 }
 
 .enemy {
-  background-color: red;
+  color: red;
+}
+
+.enemy:after {
+  content: "\2620";
+  font-size: 40px;
 }
 
 .boss {
   background-color: sienna;
-  border: 3px solid green;
+}
+
+.boss:after {
+  content: "\1F608";
+  font-size: 30px;
 }
 
 .wall {
   background-color: black;
 }
 
-.weapon1 {
-  background: blueviolet;
-}
-
 .tile {
   border: 1px solid green;
-}
-
-.health {
-  background-color: green;
 }
 
 /* blocks */
@@ -50,18 +76,22 @@
 /* menu-bar */
 .menu-bar {
   display: grid;
-  /* grid-template-columns: repeat(1, minmax(200px, 200px)); */
-  /* grid-template-rows: repeat(4, minmax(200px, 200px)); */
-
   justify-content: center;
   margin: 20px;
-  text-align: center;
-  font-size: 26px;
+  text-align: left;
+  font-size: 20px;
+  /* color: white; */
+}
+
+.menu-bar button {
+  padding: 10px;
+  font-size: 16px;
 }
 
 /* menu-bar */
 
 .map {
+  margin-top: 15px;
   display: grid;
   justify-content: start;
   font-size: 10px;

@@ -1,4 +1,3 @@
-import store from "../config/store";
 
 export function createGridToDisplay(isBossEnabled) {
   let gameGrid = [];
@@ -44,6 +43,8 @@ function generateRandomTiles(isBossEnabled) {
         }
       }
     }
+  } if (isBossEnabled === false){
+    return isBossEnabled
   }
 
   for (let secondIndex = 12; secondIndex < randomEnd; secondIndex++) {
@@ -99,6 +100,6 @@ function generateRandomTiles(isBossEnabled) {
       }
     }
   }
-
+  
   return tiles;
 }
