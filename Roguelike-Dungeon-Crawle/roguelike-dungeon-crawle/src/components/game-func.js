@@ -1,3 +1,13 @@
+function createBoss() {
+  let boss;
+  let randomEnd = 14;
+  for (let secondIndex = 13; secondIndex < randomEnd; secondIndex++) {
+    for (let index = 13; index < randomEnd; index++) {
+      boss = createCellName("boss", randomEnd);
+    }
+  }
+  return boss;
+}
 
 export function createGridToDisplay(isBossEnabled) {
   let gameGrid = [];
@@ -8,14 +18,26 @@ export function createGridToDisplay(isBossEnabled) {
     }
   }
 
-  let randomTiles = generateRandomTiles(isBossEnabled);
-  randomTiles.forEach(tile => {
-    gameGrid.map(cell => {
-      if (tile.x == cell.x && tile.y == cell.y) {
-        cell.tile = tile.tile;
-      }
+  if (isBossEnabled === true) {
+    let boss = createBoss();
+    let randomTiles = generateRandomTiles(boss);
+    randomTiles.forEach(tile => {
+      gameGrid.map(cell => {
+        if (tile.x == cell.x && tile.y == cell.y) {
+          cell.tile = tile.tile;
+        }
+      });
     });
-  });
+  } else {
+    let randomTiles = generateRandomTiles({});
+    randomTiles.forEach(tile => {
+      gameGrid.map(cell => {
+        if (tile.x == cell.x && tile.y == cell.y) {
+          cell.tile = tile.tile;
+        }
+      });
+    });
+  }
 
   return gameGrid;
 }
@@ -30,22 +52,12 @@ function createCellName(name, randomEnd) {
   return object;
 }
 
-function generateRandomTiles(isBossEnabled) {
+function generateRandomTiles(boss) {
   let randomEnd = 14;
   let tiles = [];
 
-  if (isBossEnabled === true) {
-    for (let secondIndex = 13; secondIndex < randomEnd; secondIndex++) {
-      for (let index = 13; index < randomEnd; index++) {
-        let boss = createCellName("boss", randomEnd);
-        if (tiles.indexOf(boss) === -1) {
-          tiles.push(boss);
-        }
-      }
-    }
-  } if (isBossEnabled === false){
-    return isBossEnabled
-  }
+  tiles.push(boss);
+  console.log("boss" , boss);
 
   for (let secondIndex = 12; secondIndex < randomEnd; secondIndex++) {
     for (let index = 12; index < randomEnd; index++) {
@@ -100,6 +112,6 @@ function generateRandomTiles(isBossEnabled) {
       }
     }
   }
-  
+
   return tiles;
 }

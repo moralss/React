@@ -17,6 +17,8 @@ class App extends Component {
     };
   }
 
+
+  
   determineMovement(playerPosition) {
     var oldLocation = this.state.player;
 
@@ -60,7 +62,7 @@ class App extends Component {
       if (nextLocation.tile === "boss") {
         if (
           this.props.gameStatus.weaponPower <= 3 &&
-          this.props.gameStatus.lives <= 3
+          this.props.gameStatus.lives === 0
         ) {
           this.setGameOver("over");
           var initialGrid = createGridToDisplay();
@@ -68,14 +70,14 @@ class App extends Component {
         }
 
         if (
-          this.props.gameStatus.weaponPower >= 3 &&
-          this.props.gameStatus.enemysKilled >= 13
+          this.props.gameStatus.weaponPower >= 3 
         ) {
           this.props.useWeaponPower(1);
           this.props.moveToNewLocation({
             x: nextLocation.x,
             y: nextLocation.y
           });
+
           this.setState({ player: playerPosition, oldLocation: oldLocation });
           this.setGameOver("win");
           var initialGrid = createGridToDisplay();

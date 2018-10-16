@@ -4,7 +4,7 @@
 }
 
 body {
-  /* background-color: black; */
+  background-color: black;
 }
 
 /* blocks */
@@ -64,7 +64,7 @@ body {
 }
 
 .wall {
-  background-color: black;
+  background-color: white;
 }
 
 .tile {
@@ -80,7 +80,7 @@ body {
   margin: 20px;
   text-align: left;
   font-size: 20px;
-  /* color: white; */
+  color: white;
 }
 
 .menu-bar button {

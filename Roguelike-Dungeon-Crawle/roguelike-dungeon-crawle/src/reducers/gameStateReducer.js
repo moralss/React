@@ -42,7 +42,7 @@ const playerReducer = (state = initialState, action) => {
     case "NEXT_LEVEL":
       return {
         ...state,
-        level: state.level + action.payload
+        level: state.level + 1
       };
 
     case "TOGGLE_SHOW_GRID":

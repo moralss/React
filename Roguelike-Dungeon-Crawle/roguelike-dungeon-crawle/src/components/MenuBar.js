@@ -10,7 +10,8 @@ class MenuBar extends React.Component {
     this.state = {
       level: 0,
       isGameMode: false,
-      isShowGrid: false
+      isShowGrid: false,
+      isBossEnabled: false
     };
   }
 
@@ -32,11 +33,12 @@ class MenuBar extends React.Component {
 
   componentWillReceiveProps() {
     const { level, enemysKilled } = this.props.gameStatus;
-    if (level === 1 && enemysKilled === 1) {
+    if (level === 1 && enemysKilled === 9) {
       let isBossEnabled = true;
       let nextLevelGrid = createGridToDisplay(isBossEnabled);
       this.props.updateGrid(nextLevelGrid);
-      this.props.updateLevel(1);
+      this.props.updateLevel();
+      this.setState({ isBossEnabled: true });
     }
   }
 
@@ -44,6 +46,11 @@ class MenuBar extends React.Component {
     const { lives, weaponPower, enemysKilled, level } = this.props.gameStatus;
     return (
       <div className="menu-bar">
+        
+        <div>
+          <label>boss </label>
+          <span> {this.state.isBossEnabled ? "kill the boss to win the game" : "gain exprensive by killing the enemys"} </span>
+        </div>
         <div>
           <label> lives </label>
           <span> {lives}</span>
@@ -62,6 +69,10 @@ class MenuBar extends React.Component {
         </div>
 
         <div>
+          <button onClick={() => this.playGame()}>play game</button>
+        </div>
+
+        <div>
           <button onClick={() => this.enableShowFullGrid()}>
             show full grid
           </button>
@@ -75,10 +86,6 @@ class MenuBar extends React.Component {
 
         <div>
           <button onClick={() => this.quiteGame()}> quite game </button>
-        </div>
-
-        <div>
-          <button onClick={() => this.playGame()}>play game</button>
         </div>
       </div>
     );
