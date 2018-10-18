@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Map from "./components/Map";
 import MenuBar from "./components/MenuBar";
-import { createGridToDisplay, showSmallGrid } from "./components/game-func";
+import { createGridToDisplay} from "./components/game-func";
 import * as actions from "./actions";
 import * as interactions from "./actions/action-player-interaction.js";
 import { connect } from "react-redux";
@@ -11,8 +11,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      tiles: [],
-      player: { x: 7, y: 7 },
+      playerLocation: { x: 7, y: 7 },
       oldLocation: { x: 7, y: 7 }
     };
   }
@@ -20,7 +19,7 @@ class App extends Component {
 
   
   determineMovement(playerPosition) {
-    var oldLocation = this.state.player;
+    var oldLocation = this.state.playerLocation;
 
     let nextLocation = this.props.map.tiles.find(
       cell => cell.x === playerPosition.x && cell.y === playerPosition.y
@@ -44,7 +43,7 @@ class App extends Component {
             x: nextLocation.x,
             y: nextLocation.y
           });
-          this.setState({ player: playerPosition, oldLocation: oldLocation });
+          this.setState({ playerLocation: playerPosition, oldLocation: oldLocation });
         }
 
         if (
@@ -53,7 +52,7 @@ class App extends Component {
         ) {
           this.props.subtractLive(1);
           this.props.moveToNewLocation({ x: oldLocation.x, y: oldLocation.y });
-          this.setState({ player: oldLocation });
+          this.setState({ playerLocation: oldLocation });
         }
 
         isMove = false;
@@ -78,7 +77,7 @@ class App extends Component {
             y: nextLocation.y
           });
 
-          this.setState({ player: playerPosition, oldLocation: oldLocation });
+          this.setState({ playerLocation: playerPosition, oldLocation: oldLocation });
           this.setGameOver("win");
           var initialGrid = createGridToDisplay();
           this.props.updateGrid(initialGrid);
@@ -90,7 +89,7 @@ class App extends Component {
         ) {
           this.props.subtractLive(1);
           this.props.moveToNewLocation({ x: oldLocation.x, y: oldLocation.y });
-          this.setState({ player: oldLocation });
+          this.setState({ playerLocation: oldLocation });
         }
 
         isMove = false;
@@ -99,7 +98,7 @@ class App extends Component {
       if (nextLocation.tile === "wall") {
         isMove = false;
         this.props.moveToNewLocation({ x: oldLocation.x, y: oldLocation.y });
-        this.setState({ player: oldLocation });
+        this.setState({ playerLocation: oldLocation });
       }
 
       if (nextLocation.tile === "health") {
@@ -119,19 +118,19 @@ class App extends Component {
 
       if (isMove) {
         this.props.moveToNewLocation({ x: nextLocation.x, y: nextLocation.y });
-        this.setState({ player: playerPosition, oldLocation: oldLocation });
+        this.setState({ playerLocation: playerPosition, oldLocation: oldLocation });
       }
     }
 
     if (nextLocation === undefined) {
       this.props.moveToNewLocation({ x: oldLocation.x, y: oldLocation.y });
-      this.setState({ player: oldLocation });
+      this.setState({ playerLocation: oldLocation });
     }
   }
 
   setGameOver(status) {
     alert(`game ${status}!`);
-    this.setState({ player: { x: 7, y: 7 } });
+    this.setState({ playerLocation: { x: 7, y: 7 } });
     this.setState({ oldLocation: { x: 7, y: 7 } });
     this.props.resetGame();
   }
@@ -152,7 +151,7 @@ class App extends Component {
   }
 
   handleKeyDown(event) {
-    var playerPosition = this.state.player;
+    var playerPosition = this.state.playerLocation;
     if (event.key === "ArrowLeft") {
       playerPosition = { x: playerPosition.x - 1, y: playerPosition.y };
     } else if (event.key === "ArrowRight") {
@@ -167,6 +166,8 @@ class App extends Component {
   }
 
   render() {
+
+    console.log("new po" , this.state.playerLocation , "old " , this.state.oldLocation)
     return (
       <div className="App">
         <MenuBar
@@ -184,7 +185,7 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     gameStatus: state.gameStatus,
-    playerMovement: state.player,
+    playerMovement: state.playerLocation,
     map: state.map
   };
 }

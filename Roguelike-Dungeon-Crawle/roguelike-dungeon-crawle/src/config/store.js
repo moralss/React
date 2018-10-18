@@ -1,4 +1,4 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers} from 'redux';
 import playerReducers from '../reducers/playerReducers';
 import mapReducers from '../reducers/mapReducers';
 import { logger } from '../middileware';
