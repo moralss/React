@@ -9,7 +9,7 @@ function createBoss() {
   return boss;
 }
 
-export function createGridToDisplay(isBossEnabled) {
+export function createGridToDisplay(isBossEnabled = false) {
   let gameGrid = [];
   let gridEndingValue = 14;
   for (let y = 0; y <= gridEndingValue; y++) {
@@ -21,6 +21,7 @@ export function createGridToDisplay(isBossEnabled) {
   if (isBossEnabled === true) {
     let boss = createBoss();
     let randomTiles = generateRandomTiles(boss);
+    
     randomTiles.forEach(tile => {
       gameGrid.map(cell => {
         if (tile.x == cell.x && tile.y == cell.y) {
@@ -28,7 +29,7 @@ export function createGridToDisplay(isBossEnabled) {
         }
       });
     });
-  } else {
+  } if(isBossEnabled === false) {
     let randomTiles = generateRandomTiles({});
     randomTiles.forEach(tile => {
       gameGrid.map(cell => {
@@ -53,25 +54,18 @@ function createCellName(name, randomEnd) {
 }
 
 function generateRandomTiles(boss) {
-  let randomEnd = 14;
   let tiles = [];
-
+  let randomEnd = 14;
+  console.log("my boss" , boss);
   tiles.push(boss);
-  console.log("boss" , boss);
+
+
+
 
   for (let secondIndex = 12; secondIndex < randomEnd; secondIndex++) {
     for (let index = 12; index < randomEnd; index++) {
       let health = createCellName("health", randomEnd);
-      if (tiles.indexOf(health) === -1) {
-        tiles.push(health);
-      }
-    }
-  }
-
-  for (let secondIndex = 12; secondIndex < randomEnd; secondIndex++) {
-    for (let index = 12; index < randomEnd; index++) {
-      let health = createCellName("health", randomEnd);
-      if (tiles.indexOf(health) === -1) {
+      if (tiles.indexOf(health) === -1 && health.x !== boss.x && health.y !== boss.y) {
         tiles.push(health);
       }
     }
@@ -80,7 +74,7 @@ function generateRandomTiles(boss) {
   for (let secondIndex = 11; secondIndex < randomEnd; secondIndex++) {
     for (let index = 11; index < randomEnd; index++) {
       let weapon = createCellName("weapon1", randomEnd);
-      if (tiles.indexOf(weapon) === -1) {
+      if (tiles.indexOf(weapon) === -1 && weapon.x !== boss.x && weapon.y !== boss.y) {
         tiles.push(weapon);
       }
     }
@@ -89,7 +83,7 @@ function generateRandomTiles(boss) {
   for (let secondIndex = 8; secondIndex < randomEnd; secondIndex++) {
     for (let index = 8; index < randomEnd; index++) {
       let enemy = createCellName("enemy", randomEnd);
-      if (tiles.indexOf(enemy) === -1) {
+      if (tiles.indexOf(enemy) === -1 && enemy.x !== boss.x && enemy.y !== boss.y) {
         tiles.push(enemy);
       }
     }
@@ -98,8 +92,8 @@ function generateRandomTiles(boss) {
   for (let secondIndex = 12; secondIndex < randomEnd; secondIndex++) {
     for (let index = 12; index < randomEnd; index++) {
       let weapon2 = createCellName("weapon2", randomEnd);
-      if (tiles.indexOf(weapon2) === -1) {
-        tiles.push(weapon2);
+      if (tiles.indexOf(weapon2) === -1 && weapon2.x !== boss.x && weapon2.y !== boss.y) {
+        tiles.push(weapon2);``
       }
     }
   }
@@ -107,7 +101,7 @@ function generateRandomTiles(boss) {
   for (let secondIndex = 8; secondIndex < randomEnd; secondIndex++) {
     for (let index = 8; index < randomEnd; index++) {
       let wall = createCellName("wall", randomEnd);
-      if (tiles.indexOf(wall) === -1) {
+      if (tiles.indexOf(wall) === -1 && wall.x !== boss.x && wall.y !== boss.y) {
         tiles.push(wall);
       }
     }

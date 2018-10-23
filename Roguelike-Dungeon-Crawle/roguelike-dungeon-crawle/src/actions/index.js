@@ -40,6 +40,13 @@ export const updateLevel = value => {
   };
 };
 
+export const toggleBossActive = status => {
+  return {
+    type : "TOGGLE_BOSS_ACTIVE",
+    payload:status
+  }
+}
+
 export const resetGame = () => {
   return {
     type: "RESET_GAME"

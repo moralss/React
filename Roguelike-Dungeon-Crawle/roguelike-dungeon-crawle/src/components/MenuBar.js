@@ -31,25 +31,39 @@ class MenuBar extends React.Component {
     this.props.toggleGamePlay(false);
   }
 
-  componentWillReceiveProps() {
-    const { level, enemysKilled } = this.props.gameStatus;
-    if (level === 1 && enemysKilled === 9) {
+
+  updateLevel() {
+    let nextLevelGrid = createGridToDisplay();
+    this.props.updateGrid(nextLevelGrid);
+    this.props.updateLevel();
+    this.setState({isBossEnabled : false});
+
+    if (this.props.gameStatus.level === 3 && this.props.gameStatus.enemysKilled === 9) {
+      this.props.toggleBossActive(true);
+
       let isBossEnabled = true;
+
       let nextLevelGrid = createGridToDisplay(isBossEnabled);
       this.props.updateGrid(nextLevelGrid);
-      this.props.updateLevel();
       this.setState({ isBossEnabled: true });
     }
   }
 
   render() {
-    const { lives, weaponPower, enemysKilled, level } = this.props.gameStatus;
+    const {
+      xp,
+      lives,
+      weaponPower,
+      enemysKilled,
+      level,
+      isBossActive
+    } = this.props.gameStatus;
+
     return (
       <div className="menu-bar">
-        
+        {this.props.gameStatus.enemysKilled === 9 ? this.updateLevel() : null}
         <div>
-          <label>boss </label>
-          <span> {this.state.isBossEnabled ? "kill the boss to win the game" : "gain exprensive by killing the enemys"} </span>
+          <span> {isBossActive ? "Boss active" : "Gain XP to unlock the boss"} </span>
         </div>
         <div>
           <label> lives </label>
@@ -66,6 +80,11 @@ class MenuBar extends React.Component {
         <div>
           <label>level </label>
           <span> {level} </span>
+        </div>
+
+        <div>
+          <label>XP </label>
+          <span> {xp} </span>
         </div>
 
         <div>
@@ -105,7 +124,9 @@ function dispatchStateToProps(dispatch) {
     updateLevel: value => dispatch(actions.updateLevel(value)),
     moveToNewLocation: object => dispatch(actions.movePlayer(object)),
     updateGrid: object => dispatch(actions.changeGrid(object)),
-    toggleShowGrid: boolen => dispatch(actions.toggleShowGrid(boolen))
+    toggleShowGrid: boolen => dispatch(actions.toggleShowGrid(boolen)),
+    resetGame: () => dispatch(actions.resetGame()),
+    toggleBossActive : (status) => dispatch(actions.toggleBossActive(status))
   };
 }
 

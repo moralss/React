@@ -3,7 +3,9 @@ const initialState = {
   weaponPower: 0,
   enemysKilled: 0,
   level: 1,
-  isSmallGrid: false
+  isSmallGrid: false,
+  xp:0,
+  isBossActive : false
 };
 
 const playerReducer = (state = initialState, action) => {
@@ -30,7 +32,8 @@ const playerReducer = (state = initialState, action) => {
       return {
         ...state,
         weaponPower: state.weaponPower - action.payload,
-        enemysKilled: state.enemysKilled + 1
+        enemysKilled: state.enemysKilled + 1,
+        xp: state.xp + 20
       };
 
     case "SUBTRACT_LIVE":
@@ -42,10 +45,20 @@ const playerReducer = (state = initialState, action) => {
     case "NEXT_LEVEL":
       return {
         ...state,
-        level: state.level + 1
+        enemysKilled : 0,
+        level: state.level +  1,
+        xp:state.xp + 20
+
+        
       };
 
-    case "TOGGLE_SHOW_GRID":
+    case "TOGGLE_BOSS_ACTIVE":
+      return {
+        ...state,
+        isBossActive: action.payload
+      };
+
+      case "TOGGLE_SHOW_GRID":
       return {
         ...state,
         isSmallGrid: action.payload
@@ -59,7 +72,9 @@ const playerReducer = (state = initialState, action) => {
         weaponPower: 0,
         enemysKilled: 0,
         level: 1,
-        isSmallGrid: false
+        isSmallGrid: false,
+        xp:0,
+        isBossActive : false
       };
 
     default:

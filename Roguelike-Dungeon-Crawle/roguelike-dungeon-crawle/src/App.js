@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Map from "./components/Map";
 import MenuBar from "./components/MenuBar";
-import { createGridToDisplay} from "./components/game-func";
+import { createGridToDisplay } from "./components/game-func";
 import * as actions from "./actions";
 import * as interactions from "./actions/action-player-interaction.js";
 import { connect } from "react-redux";
@@ -16,8 +16,6 @@ class App extends Component {
     };
   }
 
-
-  
   determineMovement(playerPosition) {
     var oldLocation = this.state.playerLocation;
 
@@ -43,7 +41,10 @@ class App extends Component {
             x: nextLocation.x,
             y: nextLocation.y
           });
-          this.setState({ playerLocation: playerPosition, oldLocation: oldLocation });
+          this.setState({
+            playerLocation: playerPosition,
+            oldLocation: oldLocation
+          });
         }
 
         if (
@@ -60,31 +61,34 @@ class App extends Component {
 
       if (nextLocation.tile === "boss") {
         if (
-          this.props.gameStatus.weaponPower <= 3 &&
+          this.props.gameStatus.weaponPower <= 2 &&
           this.props.gameStatus.lives === 0
         ) {
-          this.setGameOver("over");
+          this.setGameOver(
+            "over , you need at least a weapon power above 2 to kill the boss"
+          );
           var initialGrid = createGridToDisplay();
           this.props.updateGrid(initialGrid);
         }
 
-        if (
-          this.props.gameStatus.weaponPower >= 3 
-        ) {
+        if (this.props.gameStatus.weaponPower >= 2) {
           this.props.useWeaponPower(1);
           this.props.moveToNewLocation({
             x: nextLocation.x,
             y: nextLocation.y
           });
 
-          this.setState({ playerLocation: playerPosition, oldLocation: oldLocation });
-          this.setGameOver("win");
+          this.setState({
+            playerLocation: playerPosition,
+            oldLocation: oldLocation
+          });
+          this.setGameOver("won");
           var initialGrid = createGridToDisplay();
           this.props.updateGrid(initialGrid);
         }
 
         if (
-          this.props.gameStatus.weaponPower === 0 &&
+          this.props.gameStatus.weaponPower <= 2 &&
           this.props.gameStatus.lives > 0
         ) {
           this.props.subtractLive(1);
@@ -108,17 +112,22 @@ class App extends Component {
 
       if (nextLocation.tile === "weapon1") {
         isMove = true;
-        this.props.getWeapon({ ...nextLocation, weaponPower: 1 });
+        this.props.getWeapon({ weaponPower: 1 });
       }
+
+    
 
       if (nextLocation.tile === "weapon2") {
         isMove = true;
-        this.props.getWeapon({ ...nextLocation, weaponPower: 2 });
+        this.props.getWeapon({ weaponPower: 2 });
       }
 
       if (isMove) {
         this.props.moveToNewLocation({ x: nextLocation.x, y: nextLocation.y });
-        this.setState({ playerLocation: playerPosition, oldLocation: oldLocation });
+        this.setState({
+          playerLocation: playerPosition,
+          oldLocation: oldLocation
+        });
       }
     }
 
@@ -166,8 +175,6 @@ class App extends Component {
   }
 
   render() {
-
-    console.log("new po" , this.state.playerLocation , "old " , this.state.oldLocation)
     return (
       <div className="App">
         <MenuBar
@@ -192,7 +199,7 @@ function mapStateToProps(state) {
 
 function dispatchStateToProps(dispatch) {
   return {
-    resetGame: status => dispatch(actions.resetGame(status)),
+    resetGame: () => dispatch(actions.resetGame()),
     updateGrid: newGrid => dispatch(actions.changeGrid(newGrid)),
     moveToNewLocation: newLocation => dispatch(actions.movePlayer(newLocation)),
     getHealth: object => dispatch(interactions.getHealth(object)),
