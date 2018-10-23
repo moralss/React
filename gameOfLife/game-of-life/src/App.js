@@ -117,15 +117,10 @@ class App extends Component {
     this.createGrid(currentGeneration);
   }
 
-  displayGrid() {
-    let grid = this.createGrid();
-    this.setState({ gridToDisplay: grid });
-  }
 
   createGrid(aliveCells) {
     let gridToDisplay = func.createEmptyDisplayGrid();
-    this.setState({ gridToDisplay: gridToDisplay });
-    
+    this.setState({ gridToDisplay: gridToDisplay });    
     if (aliveCells !== undefined) {
       aliveCells.forEach(currentCell => {
         let aliveCellFound = gridToDisplay.find(
