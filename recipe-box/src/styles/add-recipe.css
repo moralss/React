@@ -1,0 +1,64 @@
+
+  label {
+    text-align:left;
+    color: #046a89;
+    margin-bottom: 1rem;
+  }
+  
+  .add-recipe-form {
+    display: grid;
+    height: 10rem;
+    width: 35rem;
+    padding-top: 20px;
+    font-size: 20px;
+    box-shadow: 0 10px 20px rgb(127, 216, 247);
+    grid-template-columns: 1fr 1fr;
+    margin:10px;
+    justify-content: center;
+    text-align:center;
+  
+}
+
+.add-recipe-container{
+    display:grid;
+    justify-content: center;
+   
+  }
+
+  .btn-submit{
+      position: absolute;
+      top:8rem;
+      margin-left:1rem;
+     
+
+  }
+  
+  .textarea-container{
+    display:flex;
+    width:70%;
+    flex-direction: column;
+    align-content: space-between;
+  }
+  
+  textarea{
+      height: 4rem;
+      width: 15rem;
+      font-family: serif;
+      letter-spacing: 0.1rem;
+      font-size:1.0rem;
+    }
+
+  .input-container {
+    display:flex;   
+    flex-direction: column;   
+    width:70%;
+    margin-left:1rem;
+
+  }
+
+  html {
+    text-align:center;
+    background-color: #c3ecfa;
+  }
+  
+  

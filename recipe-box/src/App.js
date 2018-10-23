@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AddRecipe from './component/AddRecipe';
 import DisplayRecipes from './component/DisplayRecipes';
-import EditRecipe from './component/EditRecipe';
+// import EditRecipe from './component/EditRecipe';
 
 
 class App extends Component {
@@ -47,7 +47,7 @@ class App extends Component {
     return (
       <div >
         <AddRecipe storeRecipe={this.storeAddedRecipe.bind(this)} />
-        <DisplayRecipes displayRecipes={this.state.recipes}
+         <DisplayRecipes displayRecipes={this.state.recipes}
           updateEdit={this.updateEditRecipe.bind(this)}
           updateDeleted={this.updateDeleted.bind(this)}
         />

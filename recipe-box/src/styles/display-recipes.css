@@ -1,0 +1,64 @@
+
+
+#save-recipes-header {
+  text-align: center;
+  color: #046a89;
+}
+
+a {
+  color: #046a89;
+  font-family: serif;
+  font-weight: 200;
+  text-decoration: none;
+
+}
+
+a:hover{
+  cursor: pointer;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+
+
+input{
+  padding:0.5rem;
+  font-size:1rem;
+  /* font-weight: 1rem;  */
+  font-family: serif;
+  letter-spacing: 0.1rem;
+  font-size:1.0rem; 
+}
+
+.recipe-name {
+  background-color: #05b7ec;
+  text-align: center;
+  margin: 4px;
+  padding: 4px;
+}
+
+
+.ingredient-name-container {
+ /* display: grid; */
+
+
+}
+
+.display-ingredient {
+  text-align: center;
+  color: #046a89;
+
+}
+
+.recipe-name-box {
+  text-align: center;
+
+}
+
+.display-recipe-container {
+  width: 30%;
+  margin: 0 auto;
+  margin-bottom: 3rem;
+}

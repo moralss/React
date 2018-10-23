@@ -1,0 +1,72 @@
+.label {
+  font-size: 18px;
+  color: #046a89;
+  margin-top:10px;
+}
+
+.label-ingredient{
+  margin-top:10px;
+  margin-bottom: 10px;
+
+
+}
+
+
+.label-ingredient{
+  font-size:20px;
+
+}
+
+/* <label className="label _ingredient">Ingredients </label> */
+
+.edit-option{
+
+}
+
+
+.btn-option{
+  margin-left:10px;
+
+}
+
+button{
+  color: #046A89;
+  font-size: 1rem;
+  border:none;
+  padding:10px;  
+}
+
+a{
+  font-size:1.7rem;
+}
+
+.btn-edit-submit{
+  color: #046A89;
+  text-align: center;
+  font-size: 1rem;
+  margin:1rem;
+  justify-self: center;
+  border:none;
+  padding:1rem;
+  /* padding:20px; */
+}
+
+
+.textarea-edit {
+  margin-top:15px;
+  margin-bottom: 15px;
+  margin-right: 15px;
+
+}
+
+/* 
+input {
+  font-size: 20px;
+  color: #046A89;
+} */
+
+
+.form-edit{
+  display: grid;
+  /* background-color:blue; */
+}

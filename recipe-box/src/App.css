@@ -1,31 +1,65 @@
-.App {
+/* .App {
   text-align: center;
-}
+} */
 
-.Navbar{
+/* label {
+  padding-right: 20px;
+  justify-self: center;
+  text-align:left;
+  
+  color: #046a89;
+  margin-left: 20px;
+} */
+
+/* form {
+  display: grid;
+  height: 10rem;
+  width: 50rem;
+  padding-top: 20px;
+  font-size: 20px;
+  box-shadow: 0 10px 20px rgb(127, 216, 247);
+  grid-template-columns: 1fr 1fr;
+  margin:10px;
+  justify-content: center;
+  text-align:center;
+} */
+
+/* .add-recipe-container{
+  display:grid;
+  justify-content: center;
+ 
+} */
+
+/* style={{ display: "grid", justifyContent: " center" }} */
+
+/* textarea {
+  padding-top: 20px;
+  margin-top: 20px;
+  margin:10px;
   
 }
 
-.AddInputBox{
-
- padding-top:20px;
- font-size: 20px;
-  box-shadow:0 10px 20px rgb(127, 216, 247)  ;
-
-  width:354px;
-
-}
-
- html{
-   background-color: #C3ECFA;
-}
-
-.editOptions{
-   text-align: center;
-}
-
-.button{
-  font-size:18px;
-  color:#046A89;
+input {
+  font-size:20px;
+  text-align:left;
+  padding-left: 100px;
+  padding-top: 20px;
+  margin:10px;
+  justify-self: center;
 
 }
+ */
+/*  
+html {
+  text-align:center;
+  background-color: #c3ecfa;
+} */
+
+/* .editOptions {
+  text-align: center;
+} */
+
+/* .button {
+  font-size: 18px;
+  color: #046a89;
+} */

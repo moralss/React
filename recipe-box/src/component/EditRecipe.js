@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import DisplayRecipes from './DisplayRecipes';
 import '../App.css';
-
+import '../styles/edit-recipe.css';
 
 class EditRecipe extends Component {
     constructor(props) {
@@ -12,6 +11,15 @@ class EditRecipe extends Component {
             editRecipeName: this.props.selectedRecipe.recipeName,
             editIngredient: this.props.selectedRecipe.ingredient
         }
+    }
+
+    componentWillUnmount(){
+        const editRecipe = this.props.selectedRecipe.recipeName;
+        const editIngredient = this.props.selectedRecipe.editIngredient;
+
+        this.setState({editRecipe :editRecipe });
+        this.setState({editIngredient : editIngredient});
+
     }
 
     deleteRecipe() {
@@ -27,7 +35,9 @@ class EditRecipe extends Component {
     }
 
     editRecipe() {
-        this.setState({ isEditRecipe: true });
+        console.log(this.state.isEditRecipe);
+        !this.state.isEditRecipe ? this.setState({isEditRecipe : true}) :
+        this.setState({isEditRecipe : false})   
     }
 
 
@@ -54,24 +64,38 @@ class EditRecipe extends Component {
 
     editForm() {
         return (
-            <form onSubmit={this.submitForm.bind(this)}>
-                <label style={{ fontSize: "18px", color: "#046A89" }} > Recipe Name </label>
-                <input onChange={this.recipeHandleChange.bind(this)} value={this.state.editRecipeName} />
-                <label style={{ fontSize: "18px", color: "#046A89" }} >Ingredients </label>
-                <textarea style={{ margin: "0", padding: "0" }} onChange={this.ingredientHandleChange.bind(this)} value={this.state.editIngredient} />
-                < input style={{ fontSize: "20px", color: "#o46A89" }} type="submit" value="submit" />
+            <form className="form-edit" onSubmit={this.submitForm.bind(this)}>
+                <label className="label"> Recipe Name </label>
+                <input placeholder="Enter recipe name"
+                 onChange={this.recipeHandleChange.bind(this)}
+                 value={this.state.editRecipeName} />
+                <label  className="label-ingredient">Ingredients </label>
+                
+                <textarea placeholder="Enter ingredients" 
+                className="textarea-edit" 
+                onChange={this.ingredientHandleChange.bind(this)}
+                 value={this.state.editIngredient} />
+                
+                < input  
+                 className="btn-edit-submit"
+                  type="submit" value="submit" />
+
             </form>
         )
     }
 
     render() {
+        const {deleteRecipe , editRecipe } =  this
 
         return (
-            <div className="editOptions">
+            <div className="edit-options">
                 {this.state.displayOptions === true ? <div>
-                    <button className="button" onClick={this.deleteRecipe.bind(this)}> Delete </button>
-                    <button className="button" onClick={this.editRecipe.bind(this)}> edit Recipe </button> </div> : null}
+                    <button  className="btn-option" onClick={deleteRecipe.bind(this)}> Delete </button>
+                    <button className="btn-option" onClick={editRecipe.bind(this)}> 
+                    {!this.state.isEditRecipe ? "Edit recipe" : "Channel" }
+</button> </div> : null}
                 {this.state.isEditRecipe === true ? this.editForm() : null}
+
             </div >
         )
     }
