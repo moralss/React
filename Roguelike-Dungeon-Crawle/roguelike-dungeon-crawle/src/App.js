@@ -16,9 +16,13 @@ class App extends Component {
     };
   }
 
+  generateNewGrid() {
+    var initialGrid = createGridToDisplay();
+    this.props.updateGrid(initialGrid);
+  }
+
   determineMovement(playerPosition) {
     var oldLocation = this.state.playerLocation;
-
     let nextLocation = this.props.map.tiles.find(
       cell => cell.x === playerPosition.x && cell.y === playerPosition.y
     );
@@ -29,10 +33,10 @@ class App extends Component {
         if (
           this.props.gameStatus.weaponPower === 0 &&
           this.props.gameStatus.lives === 0
-        ) {
+        )
+         {
           this.setGameOver("over");
-          var initialGrid = createGridToDisplay();
-          this.props.updateGrid(initialGrid);
+          this.generateNewGrid();
         }
 
         if (this.props.gameStatus.weaponPower > 0) {
@@ -67,12 +71,13 @@ class App extends Component {
           this.setGameOver(
             "over , you need at least a weapon power above 2 to kill the boss"
           );
-          var initialGrid = createGridToDisplay();
-          this.props.updateGrid(initialGrid);
+          this.generateNewGrid();
         }
 
         if (this.props.gameStatus.weaponPower >= 2) {
           this.props.useWeaponPower(1);
+          this.playerMovement(nextLocation);
+
           this.props.moveToNewLocation({
             x: nextLocation.x,
             y: nextLocation.y
@@ -83,8 +88,7 @@ class App extends Component {
             oldLocation: oldLocation
           });
           this.setGameOver("won");
-          var initialGrid = createGridToDisplay();
-          this.props.updateGrid(initialGrid);
+          this.generateNewGrid();
         }
 
         if (
@@ -92,34 +96,27 @@ class App extends Component {
           this.props.gameStatus.lives > 0
         ) {
           this.props.subtractLive(1);
-          this.props.moveToNewLocation({ x: oldLocation.x, y: oldLocation.y });
-          this.setState({ playerLocation: oldLocation });
-        }
+          this.playerMovement(oldLocation);
+    }
 
         isMove = false;
       }
 
       if (nextLocation.tile === "wall") {
+        this.playerMovement(oldLocation);
         isMove = false;
-        this.props.moveToNewLocation({ x: oldLocation.x, y: oldLocation.y });
-        this.setState({ playerLocation: oldLocation });
       }
 
       if (nextLocation.tile === "health") {
-        isMove = true;
         this.props.getHealth(nextLocation);
       }
 
       if (nextLocation.tile === "weapon1") {
-        isMove = true;
-        this.props.getWeapon({ weaponPower: 1 });
+        this.getWeapon(1);
       }
 
-    
-
       if (nextLocation.tile === "weapon2") {
-        isMove = true;
-        this.props.getWeapon({ weaponPower: 2 });
+        this.getWeapon(2);
       }
 
       if (isMove) {
@@ -132,8 +129,11 @@ class App extends Component {
     }
 
     if (nextLocation === undefined) {
-      this.props.moveToNewLocation({ x: oldLocation.x, y: oldLocation.y });
-      this.setState({ playerLocation: oldLocation });
+      // this.props.moveToNewLocation({ x: oldLocation.x, y: oldLocation.y });
+      // this.setState({ playerLocation: oldLocation });
+      
+      this.playerMovement(oldLocation)
+      
     }
   }
 
@@ -144,10 +144,20 @@ class App extends Component {
     this.props.resetGame();
   }
 
+  playerMovement(location) {
+    this.props.moveToNewLocation({ x: location.x, y: location.y });
+    this.setState({ playerLocation: location });
+  }
+
+  getWeapon(power) {
+    let isMove = true;
+    this.props.getWeapon({ weaponPower: power });
+    return isMove;
+  }
+
   toggleGamePlay = status => {
     if (status === true) {
-      var initialGrid = createGridToDisplay();
-      this.props.updateGrid(initialGrid);
+      this.generateNewGrid();
     } else if (status === false) {
       this.setGameOver("reset");
     }

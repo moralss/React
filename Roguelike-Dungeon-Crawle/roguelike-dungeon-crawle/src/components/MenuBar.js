@@ -15,34 +15,15 @@ class MenuBar extends React.Component {
     };
   }
 
-  enableShowFullGrid() {
-    this.props.toggleShowGrid(true);
-  }
-
-  disableShowFullGrid() {
-    this.props.toggleShowGrid(false);
-  }
-
-  playGame() {
-    this.props.toggleGamePlay(true);
-  }
-
-  quiteGame() {
-    this.props.toggleGamePlay(false);
-  }
-
-
   updateLevel() {
     let nextLevelGrid = createGridToDisplay();
     this.props.updateGrid(nextLevelGrid);
     this.props.updateLevel();
     this.setState({isBossEnabled : false});
 
-    if (this.props.gameStatus.level === 3 && this.props.gameStatus.enemysKilled === 9) {
+    if (this.props.gameStatus.level === 1 && this.props.gameStatus.enemysKilled === 9) {
       this.props.toggleBossActive(true);
-
       let isBossEnabled = true;
-
       let nextLevelGrid = createGridToDisplay(isBossEnabled);
       this.props.updateGrid(nextLevelGrid);
       this.setState({ isBossEnabled: true });
@@ -88,23 +69,25 @@ class MenuBar extends React.Component {
         </div>
 
         <div>
-          <button onClick={() => this.playGame()}>play game</button>
+          <button onClick={() => this.props.toggleGamePlay(true)}>
+          play game</button>
         </div>
 
         <div>
-          <button onClick={() => this.enableShowFullGrid()}>
+          <button onClick={() => this.props.toggleShowGrid(true)}>
             show full grid
           </button>
         </div>
 
         <div>
-          <button onClick={() => this.disableShowFullGrid()}>
+          <button onClick={() => this.props.toggleShowGrid(false)}>
             show small grid
           </button>
         </div>
 
         <div>
-          <button onClick={() => this.quiteGame()}> quite game </button>
+          <button onClick={() =>  this.props.toggleGamePlay(false)}>
+           quite game </button>
         </div>
       </div>
     );
@@ -121,7 +104,7 @@ function mapStateToProps(state) {
 
 function dispatchStateToProps(dispatch) {
   return {
-    updateLevel: value => dispatch(actions.updateLevel(value)),
+    updateLevel: () => dispatch(actions.updateLevel()),
     moveToNewLocation: object => dispatch(actions.movePlayer(object)),
     updateGrid: object => dispatch(actions.changeGrid(object)),
     toggleShowGrid: boolen => dispatch(actions.toggleShowGrid(boolen)),
