@@ -12,6 +12,11 @@ class MenuBar extends React.Component {
       isGameMode: false,
       isShowGrid: false,
       isBossEnabled: false
+    }; this.state = {
+      level: 0,
+      isGameMode: false,
+      isShowGrid: false,
+      isBossEnabled: false
     };
   }
 

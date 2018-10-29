@@ -7,6 +7,8 @@ import * as actions from "./actions";
 import * as interactions from "./actions/action-player-interaction.js";
 import { connect } from "react-redux";
 
+//1. Move the player location to the store
+
 class App extends Component {
   constructor() {
     super();
@@ -27,12 +29,18 @@ class App extends Component {
       cell => cell.x === playerPosition.x && cell.y === playerPosition.y
     );
 
+    if (nextLocation === undefined) {
+      return
+    }
+
     let isMove = true;
     if (nextLocation) {
       if (nextLocation.tile === "enemy") {
+        const { weaponPower, lives } = this.props.gameStatus;
+
         if (
-          this.props.gameStatus.weaponPower === 0 &&
-          this.props.gameStatus.lives === 0
+          weaponPower === 0 &&
+          lives === 0
         )
          {
           this.setGameOver("over");
@@ -40,11 +48,14 @@ class App extends Component {
         }
 
         if (this.props.gameStatus.weaponPower > 0) {
+        
           this.props.useWeaponPower(1);
           this.props.moveToNewLocation({
             x: nextLocation.x,
             y: nextLocation.y
           });
+          
+
           this.setState({
             playerLocation: playerPosition,
             oldLocation: oldLocation
@@ -56,8 +67,7 @@ class App extends Component {
           this.props.gameStatus.lives > 0
         ) {
           this.props.subtractLive(1);
-          this.props.moveToNewLocation({ x: oldLocation.x, y: oldLocation.y });
-          this.setState({ playerLocation: oldLocation });
+          this.playerMovement(oldLocation);
         }
 
         isMove = false;
@@ -128,13 +138,6 @@ class App extends Component {
       }
     }
 
-    if (nextLocation === undefined) {
-      // this.props.moveToNewLocation({ x: oldLocation.x, y: oldLocation.y });
-      // this.setState({ playerLocation: oldLocation });
-      
-      this.playerMovement(oldLocation)
-      
-    }
   }
 
   setGameOver(status) {
@@ -171,7 +174,7 @@ class App extends Component {
 
   handleKeyDown(event) {
     var playerPosition = this.state.playerLocation;
-    if (event.key === "ArrowLeft") {
+    if (event.key === "ArrowLeft"){
       playerPosition = { x: playerPosition.x - 1, y: playerPosition.y };
     } else if (event.key === "ArrowRight") {
       playerPosition = { x: playerPosition.x + 1, y: playerPosition.y };
