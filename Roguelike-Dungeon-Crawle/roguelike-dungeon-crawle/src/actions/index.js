@@ -5,6 +5,14 @@ export const movePlayer = coordinates => {
   };
 };
 
+export const setPlayerOldLocation = (object) => {
+  return {
+      type: 'PLAYER_OLD_LOCATION',
+      payload: object
+  }
+}
+
+
 export const gameOver = status => {
   return {
     type: "GAME_OVER",

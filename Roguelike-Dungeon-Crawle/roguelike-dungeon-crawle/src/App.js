@@ -12,10 +12,6 @@ import { connect } from "react-redux";
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      playerLocation: { x: 7, y: 7 },
-      oldLocation: { x: 7, y: 7 }
-    };
   }
 
   generateNewGrid() {
@@ -24,13 +20,14 @@ class App extends Component {
   }
 
   determineMovement(playerPosition) {
-    var oldLocation = this.state.playerLocation;
+    console.log("player movement", this.props);
+    var oldLocation = this.props.playerMovement;
     let nextLocation = this.props.map.tiles.find(
       cell => cell.x === playerPosition.x && cell.y === playerPosition.y
     );
 
     if (nextLocation === undefined) {
-      return
+      return;
     }
 
     let isMove = true;
@@ -38,28 +35,19 @@ class App extends Component {
       if (nextLocation.tile === "enemy") {
         const { weaponPower, lives } = this.props.gameStatus;
 
-        if (
-          weaponPower === 0 &&
-          lives === 0
-        )
-         {
+        if (weaponPower === 0 && lives === 0) {
           this.setGameOver("over");
           this.generateNewGrid();
         }
 
         if (this.props.gameStatus.weaponPower > 0) {
-        
           this.props.useWeaponPower(1);
           this.props.moveToNewLocation({
             x: nextLocation.x,
             y: nextLocation.y
           });
-          
 
-          this.setState({
-            playerLocation: playerPosition,
-            oldLocation: oldLocation
-          });
+          this.props.setPlayerOldLocation(oldLocation);
         }
 
         if (
@@ -93,10 +81,7 @@ class App extends Component {
             y: nextLocation.y
           });
 
-          this.setState({
-            playerLocation: playerPosition,
-            oldLocation: oldLocation
-          });
+          this.props.setPlayerOldLocation(oldLocation);
           this.setGameOver("won");
           this.generateNewGrid();
         }
@@ -107,7 +92,7 @@ class App extends Component {
         ) {
           this.props.subtractLive(1);
           this.playerMovement(oldLocation);
-    }
+        }
 
         isMove = false;
       }
@@ -131,25 +116,20 @@ class App extends Component {
 
       if (isMove) {
         this.props.moveToNewLocation({ x: nextLocation.x, y: nextLocation.y });
-        this.setState({
-          playerLocation: playerPosition,
-          oldLocation: oldLocation
-        });
+        this.props.setPlayerOldLocation(oldLocation);
+
+        
       }
     }
-
   }
 
   setGameOver(status) {
     alert(`game ${status}!`);
-    this.setState({ playerLocation: { x: 7, y: 7 } });
-    this.setState({ oldLocation: { x: 7, y: 7 } });
     this.props.resetGame();
   }
 
   playerMovement(location) {
     this.props.moveToNewLocation({ x: location.x, y: location.y });
-    this.setState({ playerLocation: location });
   }
 
   getWeapon(power) {
@@ -173,8 +153,8 @@ class App extends Component {
   }
 
   handleKeyDown(event) {
-    var playerPosition = this.state.playerLocation;
-    if (event.key === "ArrowLeft"){
+    var playerPosition = this.props.playerMovement;
+    if (event.key === "ArrowLeft") {
       playerPosition = { x: playerPosition.x - 1, y: playerPosition.y };
     } else if (event.key === "ArrowRight") {
       playerPosition = { x: playerPosition.x + 1, y: playerPosition.y };
@@ -191,11 +171,11 @@ class App extends Component {
     return (
       <div className="App">
         <MenuBar
-          playerPosition={this.state.playerPosition}
+          playerPosition={this.props.playerMovement}
           toggleGamePlay={this.toggleGamePlay.bind(this)}
         />
         <div>
-          <Map oldLocation={this.state.oldLocation} />
+          <Map oldLocation={this.props.playerOldLocation} />
         </div>
       </div>
     );
@@ -205,13 +185,16 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     gameStatus: state.gameStatus,
-    playerMovement: state.playerLocation,
+    playerMovement: state.player.position,
+    playerOldLocation : state.player.OldPosition,
     map: state.map
   };
 }
 
 function dispatchStateToProps(dispatch) {
   return {
+    setPlayerOldLocation: location =>
+      dispatch(actions.setPlayerOldLocation(location)),
     resetGame: () => dispatch(actions.resetGame()),
     updateGrid: newGrid => dispatch(actions.changeGrid(newGrid)),
     moveToNewLocation: newLocation => dispatch(actions.movePlayer(newLocation)),
