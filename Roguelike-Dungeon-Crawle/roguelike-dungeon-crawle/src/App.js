@@ -6,7 +6,7 @@ import { createGridToDisplay } from "./components/game-func";
 import * as actions from "./actions";
 import * as interactions from "./actions/action-player-interaction.js";
 import { connect } from "react-redux";
-import {getProps} from "./components/gameLogic";
+import * as logic from "./components/gameLogic";
 //1. Move the player location to the store
 
 class App extends Component {
@@ -14,76 +14,21 @@ class App extends Component {
     super();
   }
 
-  generateNewGrid() {
-    var initialGrid = createGridToDisplay();
-    this.props.updateGrid(initialGrid);
-  }
-
-  handleBoss() {
-    if (
-      this.props.gameStatus.weaponPower <= 2 &&
-      this.props.gameStatus.lives === 0
-    ) {
-      this.setGameOver(
-        "over , you need at least a weapon power above 2 to kill the boss"
-      );
-      this.generateNewGrid();
-    }
-
-    if (this.props.gameStatus.weaponPower >= 2) {
-      this.setGameOver("won");
-      this.generateNewGrid();
-      return;
-    }
-
-    if (
-      this.props.gameStatus.weaponPower <= 2 &&
-      this.props.gameStatus.lives > 0
-    ) {
-      this.props.subtractLive(1);
-    }
-  }
-
-  handleEnemy(nextLocation, oldLocation ) {
-    const { weaponPower, lives } = this.props.gameStatus;
-    if (weaponPower <= 0 && lives === 0) {
-      this.setGameOver("over ");
-      this.generateNewGrid();
-      return;
-    }
-
-    if (weaponPower > 0) {
-      this.props.useWeaponPower(1);
-      this.props.moveToNewLocation({
-        x: nextLocation.x,
-        y: nextLocation.y
-      });
-      this.props.setPlayerOldLocation(oldLocation);
-      return
-    }
-
-    if (weaponPower === 0 && lives > 0) {
-      this.props.subtractLive(1);
-    }
-    return
-  }
-
   determineMovement(playerPosition) {
-    var oldLocation = this.props.playerMovement;
-    let nextLocation = this.props.map.tiles.find(
-      cell => cell.x === playerPosition.x && cell.y === playerPosition.y
-    );
-
     let isMove = true;
+    let props = this.props;
+    var oldLocation = this.props.playerMovement;
+    let nextLocation = logic.findPlayerLocation(playerPosition, props);
+
     if (nextLocation) {
       switch (nextLocation.tile) {
         case "enemy": {
-          this.handleEnemy(nextLocation, oldLocation );
+          logic.handleEnemy(nextLocation, oldLocation, props);
           isMove = false;
           break;
         }
         case "boss": {
-          this.handleBoss(nextLocation);
+          logic.handleBoss(props);
           isMove = false;
           break;
         }
@@ -96,11 +41,11 @@ class App extends Component {
           break;
         }
         case "weapon1": {
-          this.getWeapon(1);
+          this.props.getWeapon({ weaponPower: 1 });
           break;
         }
         case "weapon2": {
-          this.getWeapon(2);
+          this.props.getWeapon({ weaponPower: 2 });
           break;
         }
       }
@@ -112,23 +57,13 @@ class App extends Component {
     }
   }
 
-  setGameOver(status) {
-    alert(`game ${status}!`);
-    this.props.resetGame();
-  }
-
-
-  getWeapon(power) {
-    let isMove = true;
-    this.props.getWeapon({ weaponPower: power });
-    return isMove;
-  }
-
   toggleGamePlay = status => {
     if (status === true) {
-      this.generateNewGrid();
+      let initialGrid = createGridToDisplay();
+      this.props.updateGrid(initialGrid);
     } else if (status === false) {
-      this.setGameOver("reset");
+      this.props.resetGame();
+      alert("game reset");
     }
   };
 
@@ -151,7 +86,6 @@ class App extends Component {
     }
 
     this.determineMovement(playerPosition);
-
   }
 
   render() {
@@ -185,11 +119,11 @@ function dispatchStateToProps(dispatch) {
     resetGame: () => dispatch(actions.resetGame()),
     updateGrid: newGrid => dispatch(actions.changeGrid(newGrid)),
     moveToNewLocation: newLocation => dispatch(actions.movePlayer(newLocation)),
-    getHealth: object => dispatch(interactions.getHealth(object)),
+    getHealth: () => dispatch(interactions.getHealth()),
     getEnemy: object => dispatch(interactions.getEnemy(object)),
     getWeapon: object => dispatch(interactions.getWeapon(object)),
     useWeaponPower: amount => dispatch(interactions.useWeaponPower(amount)),
-    subtractLive: amount => dispatch(interactions.subtractLive(amount))
+    subtractLife: amount => dispatch(interactions.subtractLife(amount))
   };
 }
 

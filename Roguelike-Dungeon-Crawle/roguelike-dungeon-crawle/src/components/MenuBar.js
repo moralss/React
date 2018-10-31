@@ -7,31 +7,19 @@ import { createGridToDisplay } from "./game-func";
 class MenuBar extends React.Component {
   constructor() {
     super();
-    this.state = {
-      level: 0,
-      isGameMode: false,
-      isShowGrid: false,
-      isBossEnabled: false
-    }; this.state = {
-      level: 0,
-      isGameMode: false,
-      isShowGrid: false,
-      isBossEnabled: false
-    };
+   
   }
 
   updateLevel() {
     let nextLevelGrid = createGridToDisplay();
     this.props.updateGrid(nextLevelGrid);
     this.props.updateLevel();
-    this.setState({isBossEnabled : false});
 
     if (this.props.gameStatus.level === 1 && this.props.gameStatus.enemysKilled === 9) {
       this.props.toggleBossActive(true);
-      let isBossEnabled = true;
-      let nextLevelGrid = createGridToDisplay(isBossEnabled);
+      let nextLevelGrid = createGridToDisplay(true);
       this.props.updateGrid(nextLevelGrid);
-      this.setState({ isBossEnabled: true });
+
     }
   }
 

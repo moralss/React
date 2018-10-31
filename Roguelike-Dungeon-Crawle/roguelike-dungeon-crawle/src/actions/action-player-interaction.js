@@ -1,7 +1,6 @@
-export const getHealth = (object) => {
+export const getHealth = () => {
     return {
-        type: 'UPDATE_HEALTH',
-        payload: object
+        type: 'UPDATE_HEALTH'
     }
 }
 
@@ -27,9 +26,9 @@ export const useWeaponPower = (object) => {
     }
 }
 
-export const subtractLive = (amount) => {
+export const subtractLife = (amount) => {
     return {
-        type: 'SUBTRACT_LIVE',
+        type: 'SUBTRACT_LIFE',
         payload: amount
     }
 }

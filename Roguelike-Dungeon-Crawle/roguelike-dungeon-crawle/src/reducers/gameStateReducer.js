@@ -8,7 +8,7 @@ const initialState = {
   isBossActive : false
 };
 
-const playerReducer = (state = initialState, action) => {
+const gameStateReducer = (state = initialState, action) => {
   switch (action.type) {
     case "UPDATE_HEALTH":
       return {
@@ -36,10 +36,10 @@ const playerReducer = (state = initialState, action) => {
         xp: state.xp + 20
       };
 
-    case "SUBTRACT_LIVE":
+    case "SUBTRACT_LIFE":
       return {
         ...state,
-        lives: state.lives - action.payload
+        lives: state.lives - 1
       };
 
     case "NEXT_LEVEL":
@@ -82,4 +82,4 @@ const playerReducer = (state = initialState, action) => {
   }
 };
 
-export default playerReducer;
+export default gameStateReducer;
