@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import "./App.css";
-import Map from "./components/Map";
-import MenuBar from "./components/MenuBar";
-import { createGridToDisplay } from "./components/game-func";
+import Map from "./container/Map";
+import MenuBar from "./container/menuBar";
+import { createGridToDisplay } from "./container/game-func";
 import * as actions from "./actions";
 import * as interactions from "./actions/action-player-interaction.js";
 import { connect } from "react-redux";
-import * as logic from "./components/gameLogic";
+import * as logic from "./container/gameLogic";
+
 //1. Move the player location to the store
 
 class App extends Component {
@@ -17,6 +18,13 @@ class App extends Component {
   determineMovement(playerPosition) {
     let isMove = true;
     let props = this.props;
+    let {
+      setPlayerOldLocation,
+      getHealth,
+      getWeapon,
+      moveToNewLocation
+    } = this.props;
+
     var oldLocation = this.props.playerMovement;
     let nextLocation = logic.findPlayerLocation(playerPosition, props);
 
@@ -37,32 +45,33 @@ class App extends Component {
           break;
         }
         case "health": {
-          this.props.getHealth(nextLocation);
+          getHealth(nextLocation);
           break;
         }
         case "weapon1": {
-          this.props.getWeapon({ weaponPower: 1 });
+          getWeapon({ weaponPower: 1 });
           break;
         }
         case "weapon2": {
-          this.props.getWeapon({ weaponPower: 2 });
+          getWeapon({ weaponPower: 2 });
           break;
         }
       }
 
       if (isMove) {
-        this.props.moveToNewLocation({ x: nextLocation.x, y: nextLocation.y });
-        this.props.setPlayerOldLocation(oldLocation);
+        moveToNewLocation({ x: nextLocation.x, y: nextLocation.y });
+        setPlayerOldLocation(oldLocation);
       }
     }
   }
 
   toggleGamePlay = status => {
+    const { updateGrid, resetGame } = this.props;
     if (status === true) {
       let initialGrid = createGridToDisplay();
-      this.props.updateGrid(initialGrid);
+      updateGrid(initialGrid);
     } else if (status === false) {
-      this.props.resetGame();
+      resetGame();
       alert("game reset");
     }
   };
@@ -115,7 +124,7 @@ function mapStateToProps(state) {
 function dispatchStateToProps(dispatch) {
   return {
     setPlayerOldLocation: location =>
-      dispatch(actions.setPlayerOldLocation(location)),
+    dispatch(actions.setPlayerOldLocation(location)),
     resetGame: () => dispatch(actions.resetGame()),
     updateGrid: newGrid => dispatch(actions.changeGrid(newGrid)),
     moveToNewLocation: newLocation => dispatch(actions.movePlayer(newLocation)),

@@ -86,11 +86,13 @@ class App extends Component {
     this.state.infiniteGrid.forEach(gridCell => {
       var aliveNeighbors = [];
       let allNeighbors = func.getAllNeighbors(gridCell);
+      
       allNeighbors.forEach(singleNeighbor => {
         var neighborMatch = this.state.infiniteGrid.find(
           cell =>
             cell.xAxis === singleNeighbor[0] && cell.yAxis === singleNeighbor[1]
         );
+
         if (neighborMatch !== undefined && neighborMatch.status === true) {
           aliveNeighbors.push(neighborMatch);
         }
@@ -167,7 +169,6 @@ class App extends Component {
           <button onClick={() => this.clearBoard()}> Clear </button>
         </div>
         <div className="grid">
-          {" "}
           {this.state.gridToDisplay.map(cell => {
             return (
               <button

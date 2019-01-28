@@ -1,12 +1,10 @@
-
+    
   export function findPlayerLocation(playerPosition , props){
     let nextLocation = props.map.tiles.find(
       cell => cell.x === playerPosition.x && cell.y === playerPosition.y
     );
     return nextLocation;
   }
-
-
 
 export function handleEnemy(nextLocation, oldLocation, props) {
   const { weaponPower, lives } = props.gameStatus;
