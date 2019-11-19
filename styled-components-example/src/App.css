@@ -1,0 +1,38 @@
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  width: 50%;
+  height: 10rem;
+  text-align: center;
+
+  /* 5px rounded corners */
+}
+
+.card__header {
+  color: rgb(65, 65, 119);
+}
+
+
+.card__body {
+  text-align: left;
+  line-height: 2rem;
+  font-weight: normal;
+  font-size: 1rem;
+}
+
+
+.button {
+  background-color: rgb(58, 150, 167);
+  font-size: 2rem;
+  border: none;
+
+}
+
+
+.card--dark {
+  background-color: rgba(41, 11, 11, 0.521);
+}
+
+
+
