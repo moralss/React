@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Counter from "./containers/Counter";
-import { saveMessage } from "./actions/actions";
+import { getMessage } from "./actions/actions";
 
 class App extends Component {
   render() {
-    this.props.saveMessage("hi");
+    this.props.getMessage("hi");
     return (
       <div>
         <h1> thunk example </h1>
@@ -21,10 +20,10 @@ function mapStateToProps(state) {
   return {};
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    saveMessage: payload => dispatch(saveMessage(payload))
-  };
-}
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     getMessage: () => dispatch(getMessage())
+//   };
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, { getMessage })(App);
