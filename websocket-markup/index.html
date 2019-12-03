@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chat - Websocket Kotlin</title>
+
+    <style>
+        body {
+            font-size: 4rem;
+        }
+    </style>
+</head>
+
+<body class="full-height">
+    <h1>Chat app </h1>
+    <div id="messages">
+
+    </div>
+    <div>
+        <input type="text" placeholder="message" id="message" />
+    </div>
+    <input type="text" placeholder="name" id="name" />
+    <button onclick="sendMessage()"> Add message </button>
+    <script>
+
+
+        const urlToken = "ws://localhost:4567/chat/"
+        const url = "ws://ac88a44a6935711e982b602f197ebe6f-1529281652.eu-west-2.elb.amazonaws.com/chat/"
+        var exampleSocket = new WebSocket(url);
+        exampleSocket.onopen = function (event) {
+            console.log("connected");
+        };
+
+        exampleSocket.onmessage = function (event) {
+            const messages = JSON.parse(event.data);
+            console.log("message", messages)
+        }
+
+        exampleSocket.onclose = function (event) {
+            console.log("close ")
+        }
+
+
+        const sendMessage = () => {
+            let message = document.getElementById("message");
+            let name = document.getElementById("name");
+            exampleSocket.send(JSON.stringify({ name: name.value, message: message.value }))
+        }
+
+    </script>
+</body>
+
+</html>
