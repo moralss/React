@@ -12,40 +12,56 @@
     </style>
 </head>
 
+
 <body class="full-height">
-    <h1>Chat app </h1>
-    <div id="messages">
+
+    <div id="displayMessage">
 
     </div>
+    <h1>Chat app </h1>
     <div>
         <input type="text" placeholder="message" id="message" />
     </div>
+
     <input type="text" placeholder="name" id="name" />
     <button onclick="sendMessage()"> Add message </button>
     <script>
 
 
-        const urlToken = "ws://localhost:4567/chat/"
+        var listOfMessage = [];
         const url = "ws://ac88a44a6935711e982b602f197ebe6f-1529281652.eu-west-2.elb.amazonaws.com/chat/"
-        var exampleSocket = new WebSocket(url);
-        exampleSocket.onopen = function (event) {
-            console.log("connected");
+        var socket = new WebSocket(url);
+        socket.onopen = function (event) {
+            console.log("event open", event);
         };
 
-        exampleSocket.onmessage = function (event) {
+
+        socket.onmessage = function (event) {
             const messages = JSON.parse(event.data);
-            console.log("message", messages)
+            displayMessages(messages);
+            listOfMessage = messages;
+
         }
 
-        exampleSocket.onclose = function (event) {
-            console.log("close ")
+        socket.onclose = function (event) {
+            console.log("close")
         }
-
 
         const sendMessage = () => {
             let message = document.getElementById("message");
             let name = document.getElementById("name");
-            exampleSocket.send(JSON.stringify({ name: name.value, message: message.value }))
+            socket.send(JSON.stringify({ name: name.value, message: message.value }))
+        }
+
+        const displayMessages = (messages) => {
+            const displayMessage = document.getElementById("displayMessage");
+            displayMessage.innerHTML = "";
+            for (var i in messages) {
+                displayMessage.innerHTML += `<div>
+                    <li> name  ${messages[i].name} </li>
+                    <li> message ${messages[i].message} </li>
+                    </div>`;
+            }
         }
 
     </script>
